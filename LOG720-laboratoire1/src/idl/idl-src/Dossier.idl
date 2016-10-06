@@ -1,0 +1,52 @@
+module ca
+{
+  module etsmtl
+  {
+    module log720
+    {
+      module lab1
+      {
+        typedef sequence<long> ListeInfraction;
+        typedef sequence<long> ListeReaction;
+        exception NoPermisExisteDejaException{};
+        exception InvalidIdException{};
+
+        interface Dossier
+        {
+          readonly attribute long id;
+          readonly attribute string nom;
+          readonly attribute string noPermis;
+          readonly attribute string noPlaque;
+          readonly attribute string prenom;
+          readonly attribute long niveau;
+          ListeInfraction getListeInfraction();
+          ListeReaction getListeReaction();
+          void ajouterReactionAListe(in long idReaction);
+          void ajouterInfractionAListe(in long idInfraction);
+          string toString();
+        };      
+
+        interface CollectionDossier
+        {
+          Dossier getDossier(in long index);
+          readonly attribute long size;
+        };
+        
+        interface BanqueDossiers
+        {
+          readonly attribute CollectionDossier dossiers;
+          CollectionDossier trouverDossiersParPlaque(in string plaque);
+          CollectionDossier trouverDossiersParNom(in string nom, in string prenom);
+          Dossier trouverDossierParPermis(in string noPermis);
+          Dossier trouverDossierParId(in long idDossier);
+          void ajouterDossier(in string nom, in string prenom, in string noPermis, in string noPlaque)
+            raises( NoPermisExisteDejaException );
+          void ajouterInfractionAuDossier(in long idDossier, in long idInfraction)
+            raises( InvalidIdException );
+          void ajouterReactionAuDossier(in long idDossier, in long idReaction)
+            raises( InvalidIdException );
+        };
+      };
+    };
+  };
+};

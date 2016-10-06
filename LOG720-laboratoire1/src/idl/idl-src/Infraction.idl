@@ -1,0 +1,38 @@
+#include "Dossier.idl"
+
+module ca
+{
+  module etsmtl
+  {
+    module log720
+    {
+      module lab1
+      {
+        exception NiveauHorsBornesException{};
+
+        interface Infraction
+        {
+          readonly attribute long id;
+          readonly attribute string description;
+          readonly attribute long niveau;
+          string toString();
+        };
+
+        interface CollectionInfraction
+        {
+          Infraction getInfraction(in long index);
+          readonly attribute long size;
+        };
+
+        interface BanqueInfractions
+        {
+          readonly attribute CollectionInfraction infractions;
+          CollectionInfraction trouverInfractionsParDossier(in Dossier mydossier);
+          Infraction trouverInfractionParId(in long idInfraction);
+          void ajouterInfraction(in string description, in long niveau)
+          raises ( NiveauHorsBornesException );
+        };
+      };
+    };
+  };
+};
