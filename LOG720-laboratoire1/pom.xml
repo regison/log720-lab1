@@ -13,5 +13,7 @@
   	<module>client-voiture</module>
   	<module>module-voiture</module>
   	<module>policier-idl</module>
+  	
+  	<module>terminal-library</module>
   </modules>
 </project>
