@@ -23,6 +23,7 @@ public class ClientPoste {
 	}
 
 	private static Menu buildMenus() {
+		Menu mainMenu = new Menu("Menu Principal");
 		// TODO Auto-generated method stub
 		return null;
 	}
