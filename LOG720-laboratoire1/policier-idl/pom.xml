@@ -2,9 +2,10 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>ca.etsmtl.log720.lab1</groupId>
-    <artifactId>equipe14-log720-A16-lab1</artifactId>
+    <artifactId>police-modules</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
+  
   <artifactId>policier-idl</artifactId>
   <properties>
   	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -125,4 +126,5 @@
 			</plugins>
 		</pluginManagement>
 	</build>
+	<groupId>ca.etsmtl.log720.lab1.police-modules</groupId>
 </project>
