@@ -7,4 +7,18 @@
   </parent>
   <artifactId>client-voiture</artifactId>
   <groupId>ca.etsmtl.log720.lab1.police-modules</groupId>
+  
+  <dependencies>
+  	<dependency>
+  		<groupId>ca.etsmtl.log720.lab1.police-modules</groupId>
+  		<artifactId>policier-idl</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+    <dependency>
+  		<groupId>ca.etsmtl.log720.lab1.librairies</groupId>
+  		<artifactId>common-library</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  </dependencies>
+  
 </project>
