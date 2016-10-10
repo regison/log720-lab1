@@ -3,6 +3,15 @@
  */
 package ca.etsmtl.ens.log720;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 import org.omg.CORBA.ORBPackage.InvalidName;
@@ -31,14 +40,15 @@ public class ClientVoiture {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		
+	
 		try {
 			clientVoiture = new ClientVoiture(args);
 			Menu mainMenu = buildMenus();
 			term = new Terminal(mainMenu);
 			term.launchTerminal();
+			
 		} catch (InvalidName e) {
-			System.out.println(e);
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NotFound e) {
 			// TODO Auto-generated catch block
@@ -50,8 +60,6 @@ public class ClientVoiture {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
 	}
 	
 	
@@ -61,7 +69,9 @@ public class ClientVoiture {
 	private Dossier dossierCourant;
 
 	private BanqueDossiers banqueDossier;
-	
+	private BanqueInfractions banqueInfractions;
+	private BanqueReactions banqueReactions;
+
 	public ClientVoiture(String[] args) throws InvalidName, NotFound, CannotProceed, org.omg.CosNaming.NamingContextPackage.InvalidName{
 		this.orb = org.omg.CORBA.ORB.init(args, null);
 		// get hold of the naming service
@@ -74,7 +84,30 @@ public class ClientVoiture {
 		// resolve name to get a reference to our server
 		banqueDossier = BanqueDossiersHelper.narrow(nc.resolve(name));
 		
-		BanqueReactionsHelper.narrow(orb.string_to_object(BANQUE_REACTIONS_REFERENCE_FILE_NAME));
+		name = new NameComponent[] { new NameComponent(
+				"BanqueInfractions", "service") };
+
+		// resolve name to get a reference to our server
+		banqueInfractions = BanqueInfractionsHelper.narrow(nc.resolve(name));
+		
+		
+		try {
+			FileInputStream fis = new FileInputStream(BANQUE_REACTIONS_REFERENCE_FILE_NAME);
+			InputStreamReader isr = new InputStreamReader(fis);
+			BufferedReader br = new BufferedReader(isr);
+			String ior = br.readLine();
+			banqueReactions = BanqueReactionsHelper.narrow(orb.string_to_object(ior));
+			
+			br.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 	}
 	
 	protected CollectionDossier trouverDossierParNom(String nom, String prenom) {
@@ -83,42 +116,30 @@ public class ClientVoiture {
 		
 	}
 	
-	protected CollectionDossier trouverDossierParNumPlaque(String numPlaque) throws NotFound, CannotProceed, org.omg.CosNaming.NamingContextPackage.InvalidName {
+	protected CollectionDossier trouverDossierParNumPlaque(String numPlaque){
 	
 		return banqueDossier.trouverDossiersParPlaque(numPlaque);
 	}
 	
-	protected Dossier trouverDossierParNumPermis(String numPermis) throws NotFound, CannotProceed, org.omg.CosNaming.NamingContextPackage.InvalidName {
+	protected Dossier trouverDossierParNumPermis(String numPermis) {
 
 		return banqueDossier.trouverDossierParPermis(numPermis);
 	}
 	
-	protected Dossier selectionnerDossier(String numPermis) throws NotFound, CannotProceed, org.omg.CosNaming.NamingContextPackage.InvalidName {
+	protected Dossier selectionnerDossier(String numPermis){
 		Dossier d = banqueDossier.trouverDossierParPermis(numPermis);
 		this.dossierCourant = d;
 		return d;
 	}
 
-	protected CollectionReaction reactions() throws NotFound, CannotProceed, org.omg.CosNaming.NamingContextPackage.InvalidName {
-		NameComponent[] name = new NameComponent[] { new NameComponent(
-				"BanqueReactions", "service") };
+	protected CollectionReaction reactions()  {
 
-		// resolve name to get a reference to our server
-		BanqueReactions banqueReaction = BanqueReactionsHelper
-				.narrow(nc.resolve(name));
-
-		return banqueReaction.reactions();
+		return banqueReactions.reactions();
 	}
 	
-	protected void ajouterReaction(String description, int niveauGravite) throws NotFound, CannotProceed, org.omg.CosNaming.NamingContextPackage.InvalidName {
-		NameComponent[] name = new NameComponent[] { new NameComponent(
-				"BanqueReactions", "service") };
+	protected void ajouterReaction(String description, int niveauGravite){
 
-		// resolve name to get a reference to our server
-		BanqueReactions banqueReaction = BanqueReactionsHelper
-				.narrow(nc.resolve(name));
-
-		banqueReaction.ajouterReaction(description, niveauGravite);
+		banqueReactions.ajouterReaction(description, niveauGravite);
 	}
 	
 	protected void ajouterReactionAuDossierSelectionne(int idReaction) {
@@ -129,15 +150,8 @@ public class ClientVoiture {
 		this.dossierCourant.ajouterInfractionAListe(idInfraction);		
 	}
 	
-	protected CollectionInfraction infractions() throws NotFound, CannotProceed, org.omg.CosNaming.NamingContextPackage.InvalidName {
-		NameComponent[] name = new NameComponent[] { new NameComponent(
-				"BanqueInfractions", "service") };
-
-		// resolve name to get a reference to our server
-		BanqueInfractions banqueInfractions = BanqueInfractionsHelper
-				.narrow(nc.resolve(name));
-
-		// Ajout d'un dossier
+	protected CollectionInfraction infractions(){
+		
 		return banqueInfractions.infractions();
 	}
 	
@@ -265,19 +279,19 @@ public class ClientVoiture {
 				prenom = tmp;
 				
 				CollectionDossier dossiers;
-					dossiers = clientVoiture.trouverDossierParNom(nom, prenom);
-					if(dossiers.size() > 0)
-					{
-						System.out.println("Voici les resultats de la recherche");
-						for (int i = 0; i < dossiers.size(); ++i) {
-							Dossier d = dossiers.getDossier(i);
-							System.out.println("### " + d.id() + "###");
-							System.out.println(clientVoiture.toString(d));
-						}
-						System.out.println("-- Fin de la liste --");
-					}else{
-						System.out.println("Aucun dossier trouve dans la Banque d'infractions");
+				dossiers = clientVoiture.trouverDossierParNom(nom, prenom);
+				if(dossiers.size() > 0)
+				{
+					System.out.println("Voici les resultats de la recherche");
+					for (int i = 0; i < dossiers.size(); ++i) {
+						Dossier d = dossiers.getDossier(i);
+						System.out.println("### " + d.id() + "###");
+						System.out.println(clientVoiture.toString(d));
 					}
+					System.out.println("-- Fin de la liste --");
+				}else{
+					System.out.println("Aucun dossier trouve dans la Banque d'infractions");
+				}
 				
 				sc.close();
 				System.out.println(m.subMenutoString());
@@ -300,32 +314,20 @@ public class ClientVoiture {
 				numPlaque = tmp;
 							
 				CollectionDossier dossiers;
-				try {
-					dossiers = clientVoiture.trouverDossierParNumPlaque(numPlaque);
-					if(dossiers.size() > 0)
-					{
-						System.out.println("Voici les resultats de la recherche");
-						for (int i = 0; i < dossiers.size(); ++i) {
-							Dossier d = dossiers.getDossier(i);
-							System.out.println("### " + d.id() + "###");
-							System.out.println(clientVoiture.toString(d));
-						}
-						System.out.println("-- Fin de la liste --");
-					}else{
-						System.out.println("Aucun dossier trouve dans la Banque d'infractions");
+				dossiers = clientVoiture.trouverDossierParNumPlaque(numPlaque);
+				if(dossiers.size() > 0)
+				{
+					System.out.println("Voici les resultats de la recherche");
+					for (int i = 0; i < dossiers.size(); ++i) {
+						Dossier d = dossiers.getDossier(i);
+						System.out.println("### " + d.id() + "###");
+						System.out.println(clientVoiture.toString(d));
 					}
-				} catch (NotFound e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (CannotProceed e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (org.omg.CosNaming.NamingContextPackage.InvalidName e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					System.out.println("-- Fin de la liste --");
+				}else{
+					System.out.println("Aucun dossier trouve dans la Banque d'infractions");
 				}
 
-				
 				sc.close();
 				System.out.println(m.subMenutoString());
 			}
@@ -347,22 +349,11 @@ public class ClientVoiture {
 					
 				
 				Dossier d;
-				try {
-					d = clientVoiture.trouverDossierParNumPermis(numPermis);
-					System.out.println("Voici le dossier trouve");
-					System.out.println("### " + d.id() + "###");
-					System.out.println(clientVoiture.toString(d));
+				d = clientVoiture.trouverDossierParNumPermis(numPermis);
+				System.out.println("Voici le dossier trouve");
+				System.out.println("### " + d.id() + "###");
+				System.out.println(clientVoiture.toString(d));
 					
-				} catch (NotFound e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (CannotProceed e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (org.omg.CosNaming.NamingContextPackage.InvalidName e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 				
 				sc.close();
 				System.out.println(m.subMenutoString());
@@ -387,21 +378,10 @@ public class ClientVoiture {
 				numPermis = tmp;		
 				
 				Dossier d;
-				try {
-					d = clientVoiture.selectionnerDossier(numPermis);
-					System.out.println("### " + d.id() + "###");
-					System.out.println(clientVoiture.toString(d));
+				d = clientVoiture.selectionnerDossier(numPermis);
+				System.out.println("### " + d.id() + "###");
+				System.out.println(clientVoiture.toString(d));
 					
-				} catch (NotFound e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (CannotProceed e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (org.omg.CosNaming.NamingContextPackage.InvalidName e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 				
 				sc.close();
 				System.out.println(m.subMenutoString());
@@ -418,30 +398,20 @@ public class ClientVoiture {
 			public void doAction(Menu m) {
 				clearConsole();
 				CollectionReaction reactions;
-				try {
-					reactions = clientVoiture.reactions();
-					if(reactions.size() > 0)
-					{
-						System.out.println("Voici la liste des reactions:");
-						for (int i = 0; i < reactions.size(); ++i) {
-							Reaction r = reactions.getReaction(i);
-							System.out.println("### " + r.id() + "###");
-							System.out.println(clientVoiture.toString(r));
-						}
-						System.out.println("-- Fin de la liste --");
-					}else{
-						System.out.println("Aucune reactions n'existe dans la Banque de reactions");
+				reactions = clientVoiture.reactions();
+				if(reactions.size() > 0)
+				{
+					System.out.println("Voici la liste des reactions:");
+					for (int i = 0; i < reactions.size(); ++i) {
+						Reaction r = reactions.getReaction(i);
+						System.out.println("### " + r.id() + "###");
+						System.out.println(clientVoiture.toString(r));
 					}
-				} catch (NotFound e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (CannotProceed e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (org.omg.CosNaming.NamingContextPackage.InvalidName e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					System.out.println("-- Fin de la liste --");
+				}else{
+					System.out.println("Aucune reactions n'existe dans la Banque de reactions");
 				}
+
 				System.out.println(m.subMenutoString());
 			}
 			});
@@ -486,19 +456,9 @@ public class ClientVoiture {
 						System.out.println("Entrée invalide");
 				}
 				niveauGravite = tmpInt;
-				
-				try {
+
 					clientVoiture.ajouterReaction(description, niveauGravite);
-				} catch (NotFound e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (CannotProceed e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (org.omg.CosNaming.NamingContextPackage.InvalidName e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+
 				
 				sc.close();
 				
@@ -557,30 +517,20 @@ public class ClientVoiture {
 			public void doAction(Menu m) {
 				clearConsole();
 
-				try {
-					CollectionInfraction infractions = clientVoiture.infractions();
-					if(infractions.size() > 0)
-					{
-						System.out.println("Voici la liste des infractions:");
-						for (int i = 0; i < infractions.size(); ++i) {
-							Infraction infra = infractions.getInfraction(i);
-							System.out.println("### " + infra.id() + "###");
-							System.out.println(clientVoiture.toString(infra));
-						}
-						System.out.println("-- Fin de la liste --");
-					}else{
-						System.out.println("Aucune infraction n'existe dans la Banque d'infractions");
+				CollectionInfraction infractions = clientVoiture.infractions();
+				if(infractions.size() > 0)
+				{
+					System.out.println("Voici la liste des infractions:");
+					for (int i = 0; i < infractions.size(); ++i) {
+						Infraction infra = infractions.getInfraction(i);
+						System.out.println("### " + infra.id() + "###");
+						System.out.println(clientVoiture.toString(infra));
 					}
-				} catch (NotFound e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (CannotProceed e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (org.omg.CosNaming.NamingContextPackage.InvalidName e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					System.out.println("-- Fin de la liste --");
+				}else{
+					System.out.println("Aucune infraction n'existe dans la Banque d'infractions");
 				}
+
 				System.out.println(m.subMenutoString());
 			}
 			});

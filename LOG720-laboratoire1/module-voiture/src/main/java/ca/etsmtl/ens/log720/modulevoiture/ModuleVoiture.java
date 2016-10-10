@@ -66,7 +66,7 @@ public class ModuleVoiture {
 		
 		try {			
 			org.omg.CORBA.Object banqueReactions = poa.servant_to_reference(new BanqueReactionsImpl());
-			
+
 			PrintWriter ps = new PrintWriter(
 					new FileOutputStream(
 							new File(
