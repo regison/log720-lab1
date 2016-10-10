@@ -44,7 +44,7 @@ public class ClientPoste {
 	}
 	
 	
-	/* ---- Buisness Logic ---- */
+	/* ---- Business Logic ---- */
 	private org.omg.CORBA.ORB orb;
 	private NamingContextExt nc;
 	
@@ -157,7 +157,7 @@ public class ClientPoste {
 		mainMenu.AddSubMenu(subMenu);
 		
 		//build Menu Ajouter Infraction dans la banque d'infractions
-		subMenu = buildMenuAjouterInfraction();
+		subMenu = buildMenuListerInfractions();
 		mainMenu.AddSubMenu(subMenu);
 		
 		//build Menu Lister dossier
@@ -244,7 +244,7 @@ public class ClientPoste {
 					System.out.println("Entrée invalide");
 				description = tmp;
 				
-				System.out.println("Prénom ?");
+				System.out.println("Niveau de Gravite ?");
 				while(invalide)
 				{
 					if((tmp = sc.nextLine()) != "" )
@@ -326,8 +326,8 @@ public class ClientPoste {
 		return m;
 	}
 
-	private static Menu buildMenuAjouterInfraction() {
-		Menu m = new Menu("Lister les onfractions de la banque d'infractions");
+	private static Menu buildMenuListerInfractions() {
+		Menu m = new Menu("Lister les infractions de la banque d'infractions");
 		m.AddSubMenu(buildGoBackMenu());
 		m.setAction(new Menu.ActionDelegate() {
 			public void doAction(Menu m) {
@@ -337,7 +337,7 @@ public class ClientPoste {
 					CollectionInfraction infractions = clientposte.infractions();
 					if(infractions.size() > 0)
 					{
-						System.out.println("Voici la liste des dossiers:");
+						System.out.println("Voici la liste des infractions:");
 						for (int i = 0; i < infractions.size(); ++i) {
 							Infraction infra = infractions.getInfraction(i);
 							System.out.println("### " + infra.id() + "###");
@@ -345,7 +345,7 @@ public class ClientPoste {
 						}
 						System.out.println("--Fin de la liste --");
 					}else{
-						System.out.println("Aucun dossiers n'existe dans la Banque de dossier");
+						System.out.println("Aucune infraction n'existe dans la Banque d'infractions");
 					}
 				} catch (NotFound e) {
 					// TODO Auto-generated catch block
