@@ -11,6 +11,7 @@ import ca.etsmtl.ens.log720.lab1.DossierPOA;
  */
 public class DossierImpl extends DossierPOA {
 
+	
 	/**
 	 * 
 	 */
