@@ -1,6 +1,5 @@
 package ca.etsmtl.ens.log720.serverposte;
 
-
 import org.omg.CORBA.ORB;
 import org.omg.CORBA.ORBPackage.InvalidName;
 import org.omg.CosNaming.NamingContextExt;

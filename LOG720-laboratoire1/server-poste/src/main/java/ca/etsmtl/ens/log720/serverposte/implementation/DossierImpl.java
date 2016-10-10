@@ -3,6 +3,8 @@
  */
 package ca.etsmtl.ens.log720.serverposte.implementation;
 
+import java.util.ArrayList;
+
 import ca.etsmtl.ens.log720.lab1.DossierPOA;
 
 /**
@@ -11,6 +13,15 @@ import ca.etsmtl.ens.log720.lab1.DossierPOA;
  */
 public class DossierImpl extends DossierPOA {
 
+	private int id;
+	private String nom;
+	private String prenom;
+	private String permisId;
+	private String plaqueId;
+	private int levelId;
+
+	private ArrayList<Integer> infractionsArray ;
+	private ArrayList<Integer> reactionsArray ;
 	/**
 	 * 
 	 */
@@ -23,7 +34,7 @@ public class DossierImpl extends DossierPOA {
 	 */
 	public int id() {
 		// TODO Auto-generated method stub
-		return 0;
+		return id;
 	}
 
 	/* (non-Javadoc)
@@ -31,7 +42,7 @@ public class DossierImpl extends DossierPOA {
 	 */
 	public String nom() {
 		// TODO Auto-generated method stub
-		return null;
+		return nom;
 	}
 
 	/* (non-Javadoc)
@@ -39,7 +50,7 @@ public class DossierImpl extends DossierPOA {
 	 */
 	public String noPermis() {
 		// TODO Auto-generated method stub
-		return null;
+		return permisId;
 	}
 
 	/* (non-Javadoc)
@@ -47,7 +58,7 @@ public class DossierImpl extends DossierPOA {
 	 */
 	public String noPlaque() {
 		// TODO Auto-generated method stub
-		return null;
+		return plaqueId;
 	}
 
 	/* (non-Javadoc)
@@ -55,7 +66,7 @@ public class DossierImpl extends DossierPOA {
 	 */
 	public String prenom() {
 		// TODO Auto-generated method stub
-		return null;
+		return prenom;
 	}
 
 	/* (non-Javadoc)
@@ -63,7 +74,7 @@ public class DossierImpl extends DossierPOA {
 	 */
 	public int niveau() {
 		// TODO Auto-generated method stub
-		return 0;
+		return levelId;
 	}
 
 	/* (non-Javadoc)
@@ -71,7 +82,7 @@ public class DossierImpl extends DossierPOA {
 	 */
 	public int[] getListeInfraction() {
 		// TODO Auto-generated method stub
-		return null;
+		return infractionsArray.toArray();
 	}
 
 	/* (non-Javadoc)
@@ -79,14 +90,16 @@ public class DossierImpl extends DossierPOA {
 	 */
 	public int[] getListeReaction() {
 		// TODO Auto-generated method stub
-		return null;
+		return reactionsArray.toArray();
 	}
 
 	/* (non-Javadoc)
 	 * @see ca.etsmtl.ens.log720.lab1.DossierOperations#ajouterReactionAListe(int)
 	 */
 	public void ajouterReactionAListe(int idReaction) {
-		// TODO Auto-generated method stub
+		if (idReaction != 0){
+			this.reactionsArray.add(idReaction);
+		}
 
 	}
 
@@ -94,8 +107,9 @@ public class DossierImpl extends DossierPOA {
 	 * @see ca.etsmtl.ens.log720.lab1.DossierOperations#ajouterInfractionAListe(int)
 	 */
 	public void ajouterInfractionAListe(int idInfraction) {
-		// TODO Auto-generated method stub
-
+		if (idInfraction !=0){
+			this.infractionsArray.add(idInfraction);
+		}
 	}
 
 	/* (non-Javadoc)
