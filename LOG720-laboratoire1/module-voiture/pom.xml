@@ -12,6 +12,11 @@
   		<artifactId>policier-idl</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
   	</dependency>
+  	<dependency>
+  		<groupId>ca.etsmtl.log720.lab1.police-modules</groupId>
+  		<artifactId>server-poste</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
   </dependencies>
   <groupId>ca.etsmtl.log720.lab1.police-modules</groupId>
 </project>

@@ -22,6 +22,8 @@ import ca.etsmtl.ens.log720.lab1.*;
  */
 public class ClientVoiture {
 
+	private static final String BANQUE_REACTIONS_REFERENCE_FILE_NAME = "BanqueReactions_reference.nsref";
+	
 	private static Terminal term;
 	private static ClientVoiture clientVoiture;
 	
@@ -38,6 +40,15 @@ public class ClientVoiture {
 		} catch (InvalidName e) {
 			System.out.println(e);
 			e.printStackTrace();
+		} catch (NotFound e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (CannotProceed e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (org.omg.CosNaming.NamingContextPackage.InvalidName e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 		
@@ -48,57 +59,41 @@ public class ClientVoiture {
 	private org.omg.CORBA.ORB orb;
 	private NamingContextExt nc;
 	private Dossier dossierCourant;
+
+	private BanqueDossiers banqueDossier;
 	
-	public ClientVoiture(String[] args) throws InvalidName{
+	public ClientVoiture(String[] args) throws InvalidName, NotFound, CannotProceed, org.omg.CosNaming.NamingContextPackage.InvalidName{
 		this.orb = org.omg.CORBA.ORB.init(args, null);
 		// get hold of the naming service
 		this.nc = NamingContextExtHelper.narrow(orb
 				.resolve_initial_references("NameService"));
-	}
-	
-	protected CollectionDossier trouverDossierParNom(String nom, String prenom) throws NotFound, CannotProceed, org.omg.CosNaming.NamingContextPackage.InvalidName {
+		
 		NameComponent[] name = new NameComponent[] { new NameComponent(
 				"BanqueDossiers", "service") };
 
 		// resolve name to get a reference to our server
-		BanqueDossiers banqueDossier = BanqueDossiersHelper
-				.narrow(nc.resolve(name));
-
+		banqueDossier = BanqueDossiersHelper.narrow(nc.resolve(name));
+		
+		BanqueReactionsHelper.narrow(orb.string_to_object(BANQUE_REACTIONS_REFERENCE_FILE_NAME));
+	}
+	
+	protected CollectionDossier trouverDossierParNom(String nom, String prenom) {
+		
 		return banqueDossier.trouverDossiersParNom(nom, prenom);
 		
 	}
 	
 	protected CollectionDossier trouverDossierParNumPlaque(String numPlaque) throws NotFound, CannotProceed, org.omg.CosNaming.NamingContextPackage.InvalidName {
-		NameComponent[] name = new NameComponent[] { new NameComponent(
-				"BanqueDossiers", "service") };
-
-		// resolve name to get a reference to our server
-		BanqueDossiers banqueDossier = BanqueDossiersHelper
-				.narrow(nc.resolve(name));
-
+	
 		return banqueDossier.trouverDossiersParPlaque(numPlaque);
 	}
 	
 	protected Dossier trouverDossierParNumPermis(String numPermis) throws NotFound, CannotProceed, org.omg.CosNaming.NamingContextPackage.InvalidName {
-		NameComponent[] name = new NameComponent[] { new NameComponent(
-				"BanqueDossiers", "service") };
-
-		// resolve name to get a reference to our server
-		BanqueDossiers banqueDossier = BanqueDossiersHelper
-				.narrow(nc.resolve(name));
 
 		return banqueDossier.trouverDossierParPermis(numPermis);
 	}
 	
 	protected Dossier selectionnerDossier(String numPermis) throws NotFound, CannotProceed, org.omg.CosNaming.NamingContextPackage.InvalidName {
-		NameComponent[] name = new NameComponent[] { new NameComponent(
-				"BanqueDossiers", "service") };
-
-		// resolve name to get a reference to our server
-		BanqueDossiers banqueDossier = BanqueDossiersHelper
-				.narrow(nc.resolve(name));
-
-
 		Dossier d = banqueDossier.trouverDossierParPermis(numPermis);
 		this.dossierCourant = d;
 		return d;
@@ -270,7 +265,6 @@ public class ClientVoiture {
 				prenom = tmp;
 				
 				CollectionDossier dossiers;
-				try {
 					dossiers = clientVoiture.trouverDossierParNom(nom, prenom);
 					if(dossiers.size() > 0)
 					{
@@ -284,16 +278,6 @@ public class ClientVoiture {
 					}else{
 						System.out.println("Aucun dossier trouve dans la Banque d'infractions");
 					}
-				} catch (NotFound e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (CannotProceed e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (org.omg.CosNaming.NamingContextPackage.InvalidName e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 				
 				sc.close();
 				System.out.println(m.subMenutoString());
