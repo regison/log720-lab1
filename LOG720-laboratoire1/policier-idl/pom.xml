@@ -6,6 +6,7 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   
+  <groupId>ca.etsmtl.log720.lab1.police-modules</groupId>
   <artifactId>policier-idl</artifactId>
   <properties>
   	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -126,5 +127,4 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-	<groupId>ca.etsmtl.log720.lab1.police-modules</groupId>
 </project>

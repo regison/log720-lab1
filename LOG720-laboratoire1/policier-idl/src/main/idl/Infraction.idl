@@ -4,6 +4,8 @@ module ca
 {
   module etsmtl
   {
+    module ens
+    {
     module log720
     {
       module lab1
@@ -34,5 +36,7 @@ module ca
         };
       };
     };
+  };
+  
   };
 };

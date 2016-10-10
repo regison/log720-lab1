@@ -8,12 +8,11 @@
   <artifactId>police-modules</artifactId>
   <packaging>pom</packaging>
   <modules>
+  	<module>policier-idl</module>
+  	<module>terminal-library</module>
   	<module>server-poste</module>
   	<module>client-poste</module>
   	<module>client-voiture</module>
   	<module>module-voiture</module>
-  	<module>policier-idl</module>
-  	
-  	<module>terminal-library</module>
   </modules>
 </project>

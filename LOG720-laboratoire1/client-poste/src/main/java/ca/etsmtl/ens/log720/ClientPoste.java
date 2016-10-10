@@ -3,7 +3,18 @@
  */
 package ca.etsmtl.ens.log720;
 
+import java.util.Scanner;
+
+import org.omg.CORBA.ORBPackage.InvalidName;
+import org.omg.CosNaming.NameComponent;
+import org.omg.CosNaming.NamingContextExt;
+import org.omg.CosNaming.NamingContextExtHelper;
+import org.omg.CosNaming.NamingContextPackage.CannotProceed;
+import org.omg.CosNaming.NamingContextPackage.NotFound;
+
 import ca.etsmtl.ens.log720.terminal.*;
+import ca.etsmtl.ens.log720.lab1.*;
+
 
 /**
  * @author charly
@@ -19,17 +30,56 @@ public class ClientPoste {
 	 */
 	public static void main(String[] args) {
 		
-		clientposte = new ClientPoste();
+		try {
+			clientposte = new ClientPoste(args);
+			Menu mainMenu = buildMenus();
+			term = new Terminal(mainMenu);
+			term.launchTerminal();
+		} catch (InvalidName e) {
+			System.out.println(e);
+			e.printStackTrace();
+		}
 		
-		Menu mainMenu = buildMenus();
-		term = new Terminal(mainMenu);
-		term.launchTerminal();
+		
 	}
 	
 	/* ---- Buisness Logic ---- */
+	private org.omg.CORBA.ORB orb;
+	private NamingContextExt nc;
 	
+	public ClientPoste(String[] args) throws InvalidName{
+		this.orb = org.omg.CORBA.ORB.init(args, null);
+		// get hold of the naming service
+		this.nc = NamingContextExtHelper.narrow(orb
+				.resolve_initial_references("NameService"));
+	}
 	
+	protected void ajouterDossier(String nom, String prenom, String numPlaque, String numPermis) throws NotFound, CannotProceed, org.omg.CosNaming.NamingContextPackage.InvalidName, NoPermisExisteDejaException {
+		
+		NameComponent[] name = new NameComponent[] { new NameComponent(
+				"BanqueDossiers", "service") };
+
+		// resolve name to get a reference to our server
+		BanqueDossiers banqueDossier = BanqueDossiersHelper
+				.narrow(nc.resolve(name));
+
+		// Ajout d'un dossier
+		banqueDossier.ajouterDossier(nom, prenom, numPlaque, numPermis);
+		
+	}
 	
+	protected void ajouterInfraction(String description, int niveauGravite) throws NotFound, CannotProceed, org.omg.CosNaming.NamingContextPackage.InvalidName, NiveauHorsBornesException {
+				
+		NameComponent[] name = new NameComponent[] { new NameComponent(
+				"BanqueInfractions", "service") };
+
+		// resolve name to get a reference to our server
+		BanqueInfractions banqueInfraction = BanqueInfractionsHelper
+				.narrow(nc.resolve(name));
+
+		// Ajout d'un dossier
+		banqueInfraction.ajouterInfraction(description,niveauGravite);
+	}
 	
 	/* -------- Menus -------- */
 	
@@ -79,8 +129,47 @@ public class ClientPoste {
 			public void doAction(Menu m) {
 				clearConsole();
 				System.out.println("Vous avez choisi d'ajouter un dossier dans la Banque de dossier.");
-				//TODO Creer un nouveau dossier
-				//TODO ajouter dossier dans la banque
+				
+				String tmp, nom, prenom, numPlaque, numPermis;
+				Scanner sc = new Scanner(System.in);
+				System.out.println("Nom ?");
+				while((tmp = sc.nextLine()) == "")
+					System.out.println("Entrée invalide");
+				nom = tmp;
+				
+				System.out.println("Prénom ?");
+				while((tmp = sc.nextLine()) == "")
+					System.out.println("Entrée invalide");
+				prenom = tmp;
+				
+				System.out.println("Numéro de plaque ?");
+				while((tmp = sc.nextLine()) == "")
+					System.out.println("Entrée invalide");
+				numPlaque = tmp;
+				
+				System.out.println("Numéro de permis ?");
+				while((tmp = sc.nextLine()) == "")
+					System.out.println("Entrée invalide");
+				numPermis = tmp;
+				
+				sc.close();
+				
+				try {
+					clientposte.ajouterDossier(nom, prenom, numPlaque, numPermis);
+				} catch (NotFound e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (CannotProceed e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (org.omg.CosNaming.NamingContextPackage.InvalidName e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (NoPermisExisteDejaException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
 				System.out.println("Votre dossier à ete ajouté");
 				System.out.println(m.subMenutoString());
 			}
@@ -88,7 +177,7 @@ public class ClientPoste {
 		
 		return m;
 	}
-	
+
 	private static Menu buildMenuAjouterInfractions() {
 		Menu m = new Menu("Ajouter un dossier a la banque de dossier");
 		m.AddSubMenu(buildGoBackMenu());
@@ -96,8 +185,52 @@ public class ClientPoste {
 			public void doAction(Menu m) {
 				clearConsole();
 				System.out.println("Vous avez choisi d'ajouter une infraction dans la Banque d'infractions.");
-				//TODO Creer une nouvelle infraction
-				//TODO ajouter infraction dans la liste d'infraction
+				
+				String tmp, description;
+				int tmpInt = 0, niveauGravite;
+				boolean invalide = true;
+				Scanner sc = new Scanner(System.in);
+				System.out.println("Description ?");
+				while((tmp = sc.nextLine()) == "")
+					System.out.println("Entrée invalide");
+				description = tmp;
+				
+				System.out.println("Prénom ?");
+				while(invalide)
+				{
+					if((tmp = sc.nextLine()) != "" )
+					{
+						try
+						{
+							tmpInt = Integer.parseInt(tmp);
+							invalide = false;
+						}
+						catch(NumberFormatException nfEx){
+							invalide = true;
+						}
+					}
+					else
+						System.out.println("Entrée invalide");
+				}
+				niveauGravite = tmpInt;
+				
+				sc.close();
+				
+				try {
+					clientposte.ajouterInfraction(description, niveauGravite);
+				} catch (NotFound e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (CannotProceed e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (org.omg.CosNaming.NamingContextPackage.InvalidName e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (NiveauHorsBornesException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				System.out.println("Votre infraction à ete ajouté");
 				System.out.println(m.subMenutoString());
 			}

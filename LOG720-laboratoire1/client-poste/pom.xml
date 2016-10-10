@@ -5,7 +5,7 @@
     <artifactId>police-modules</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <groupId>ca.etsmtl.log720.lab1.police</groupId>
+  <groupId>ca.etsmtl.log720.lab1.police-modules</groupId>
   <artifactId>client-poste</artifactId>
   
  <dependencies>
