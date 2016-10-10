@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 
 public class DossierImpl {
+	public int id;
 	private String nom;
 	private String prenom;
 	private String permisId;
@@ -11,8 +12,9 @@ public class DossierImpl {
 	private ArrayList<Integer> infractionsArray ;
 	private ArrayList<Integer> reactionsArray ;
 	
-	public DossierImpl (String nom, String prenom, String plaque, String permis)
+	public DossierImpl (int id, String nom, String prenom, String plaque, String permis)
 	{
+		this.id = id;
 		this.nom = nom;
 		this.prenom = prenom;
 		this.permisId = permis;
@@ -75,6 +77,11 @@ public class DossierImpl {
 
 	public ArrayList<Integer> getReactionsArray() {
 		return reactionsArray;
+	}
+	
+	public String ToString(){
+		return "";
+		
 	}
 
 }
