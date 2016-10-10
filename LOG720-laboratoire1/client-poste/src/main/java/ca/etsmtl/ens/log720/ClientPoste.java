@@ -43,6 +43,7 @@ public class ClientPoste {
 		
 	}
 	
+	
 	/* ---- Buisness Logic ---- */
 	private org.omg.CORBA.ORB orb;
 	private NamingContextExt nc;
@@ -80,6 +81,54 @@ public class ClientPoste {
 		// Ajout d'un dossier
 		banqueInfraction.ajouterInfraction(description,niveauGravite);
 	}
+	
+	protected CollectionDossier dossiers() throws NotFound, CannotProceed, org.omg.CosNaming.NamingContextPackage.InvalidName {
+		NameComponent[] name = new NameComponent[] { new NameComponent(
+				"BanqueInfractions", "service") };
+
+		// resolve name to get a reference to our server
+		BanqueDossiers banqueDossiers = BanqueDossiersHelper
+				.narrow(nc.resolve(name));
+
+		// Ajout d'un dossier
+		return banqueDossiers.dossiers();
+		
+	}
+	
+	protected CollectionInfraction infractions() throws NotFound, CannotProceed, org.omg.CosNaming.NamingContextPackage.InvalidName {
+		NameComponent[] name = new NameComponent[] { new NameComponent(
+				"BanqueInfractions", "service") };
+
+		// resolve name to get a reference to our server
+		BanqueInfractions banqueInfractions = BanqueInfractionsHelper
+				.narrow(nc.resolve(name));
+
+		// Ajout d'un dossier
+		return banqueInfractions.infractions();
+	}
+	
+	protected String toString(Dossier d) {
+		String dString = "";
+		
+		dString += "Nom: \"" + d.nom() + "\"\n";
+		dString += "Prenom: \"" + d.prenom() + "\"\n";
+		dString += "Numero Permis: \"" + d.noPermis() + "\"\n";
+		dString += "Numero Plaque: \"" + d.noPlaque() + "\"\n";
+		dString += "Niveau Severite: \"" + d.niveau() + "\"";
+		
+		return dString;
+	}
+	
+	protected String toString(Infraction i) {
+		String iString = "";
+		
+		iString += "Description: \"" + i.description() + "\"\n";
+		iString += "Niveau Severite: \"" + i.niveau() + "\"";
+		
+		return iString;
+	}
+	
+	
 	
 	/* -------- Menus -------- */
 	
@@ -245,9 +294,31 @@ public class ClientPoste {
 		m.setAction(new Menu.ActionDelegate() {
 			public void doAction(Menu m) {
 				clearConsole();
-				System.out.println("Voici la liste des dossiers:");
-				//TODO Afficher la liste des dossier
-				System.out.println("--Fin de la liste --");
+				
+				try {
+					CollectionDossier dossiers = clientposte.dossiers();
+					if(dossiers.size() > 0)
+					{
+						System.out.println("Voici la liste des dossiers:");
+						for (int i = 0; i < dossiers.size(); ++i) {
+							Dossier d = dossiers.getDossier(i);
+							System.out.println("### " + d.id() + "###");
+							System.out.println(clientposte.toString(d));
+						}
+						System.out.println("--Fin de la liste --");
+					}else{
+						System.out.println("Aucun dossiers n'existe dans la Banque de dossier");
+					}
+				} catch (NotFound e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (CannotProceed e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (org.omg.CosNaming.NamingContextPackage.InvalidName e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				System.out.println(m.subMenutoString());
 			}
 			});
@@ -261,9 +332,31 @@ public class ClientPoste {
 		m.setAction(new Menu.ActionDelegate() {
 			public void doAction(Menu m) {
 				clearConsole();
-				System.out.println("Voici la liste des infractions:");
-				//TODO Afficher la liste des infractions
-				System.out.println("--Fin de la liste --");
+
+				try {
+					CollectionInfraction infractions = clientposte.infractions();
+					if(infractions.size() > 0)
+					{
+						System.out.println("Voici la liste des dossiers:");
+						for (int i = 0; i < infractions.size(); ++i) {
+							Infraction infra = infractions.getInfraction(i);
+							System.out.println("### " + infra.id() + "###");
+							System.out.println(clientposte.toString(infra));
+						}
+						System.out.println("--Fin de la liste --");
+					}else{
+						System.out.println("Aucun dossiers n'existe dans la Banque de dossier");
+					}
+				} catch (NotFound e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (CannotProceed e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (org.omg.CosNaming.NamingContextPackage.InvalidName e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				System.out.println(m.subMenutoString());
 			}
 			});
