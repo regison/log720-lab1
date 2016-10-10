@@ -38,6 +38,15 @@ public class ClientPoste {
 		} catch (InvalidName e) {
 			System.out.println(e);
 			e.printStackTrace();
+		} catch (NotFound e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (CannotProceed e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (org.omg.CosNaming.NamingContextPackage.InvalidName e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 		
@@ -47,61 +56,49 @@ public class ClientPoste {
 	/* ---- Business Logic ---- */
 	private org.omg.CORBA.ORB orb;
 	private NamingContextExt nc;
+	private BanqueDossiers banqueDossiers;
+	private BanqueInfractions banqueInfractions;
 	
-	public ClientPoste(String[] args) throws InvalidName{
+	public ClientPoste(String[] args) throws InvalidName, NotFound, CannotProceed, org.omg.CosNaming.NamingContextPackage.InvalidName{
 		this.orb = org.omg.CORBA.ORB.init(args, null);
 		// get hold of the naming service
 		this.nc = NamingContextExtHelper.narrow(orb
 				.resolve_initial_references("NameService"));
-	}
-	
-	protected void ajouterDossier(String nom, String prenom, String numPlaque, String numPermis) throws NotFound, CannotProceed, org.omg.CosNaming.NamingContextPackage.InvalidName, NoPermisExisteDejaException {
 		
 		NameComponent[] name = new NameComponent[] { new NameComponent(
 				"BanqueDossiers", "service") };
 
 		// resolve name to get a reference to our server
-		BanqueDossiers banqueDossier = BanqueDossiersHelper
-				.narrow(nc.resolve(name));
+		banqueDossiers = BanqueDossiersHelper.narrow(nc.resolve(name));
+		
+		name = new NameComponent[] { new NameComponent(
+				"BanqueInfractions", "service") };
 
+		// resolve name to get a reference to our server
+		banqueInfractions = BanqueInfractionsHelper.narrow(nc.resolve(name));
+	}
+	
+	protected void ajouterDossier(String nom, String prenom, String numPlaque, String numPermis) throws NoPermisExisteDejaException {
+		
 		// Ajout d'un dossier
-		banqueDossier.ajouterDossier(nom, prenom, numPlaque, numPermis);
+		banqueDossiers.ajouterDossier(nom, prenom, numPlaque, numPermis);
 		
 	}
 	
-	protected void ajouterInfraction(String description, int niveauGravite) throws NotFound, CannotProceed, org.omg.CosNaming.NamingContextPackage.InvalidName, NiveauHorsBornesException {
+	protected void ajouterInfraction(String description, int niveauGravite) throws NiveauHorsBornesException {
 				
-		NameComponent[] name = new NameComponent[] { new NameComponent(
-				"BanqueInfractions", "service") };
-
-		// resolve name to get a reference to our server
-		BanqueInfractions banqueInfraction = BanqueInfractionsHelper
-				.narrow(nc.resolve(name));
-
 		// Ajout d'un dossier
-		banqueInfraction.ajouterInfraction(description,niveauGravite);
+		banqueInfractions.ajouterInfraction(description,niveauGravite);
 	}
 	
-	protected CollectionDossier dossiers() throws NotFound, CannotProceed, org.omg.CosNaming.NamingContextPackage.InvalidName {
-		NameComponent[] name = new NameComponent[] { new NameComponent(
-				"BanqueInfractions", "service") };
-
-		// resolve name to get a reference to our server
-		BanqueDossiers banqueDossiers = BanqueDossiersHelper
-				.narrow(nc.resolve(name));
+	protected CollectionDossier dossiers(){
 
 		// Ajout d'un dossier
 		return banqueDossiers.dossiers();
 		
 	}
 	
-	protected CollectionInfraction infractions() throws NotFound, CannotProceed, org.omg.CosNaming.NamingContextPackage.InvalidName {
-		NameComponent[] name = new NameComponent[] { new NameComponent(
-				"BanqueInfractions", "service") };
-
-		// resolve name to get a reference to our server
-		BanqueInfractions banqueInfractions = BanqueInfractionsHelper
-				.narrow(nc.resolve(name));
+	protected CollectionInfraction infractions(){
 
 		// Ajout d'un dossier
 		return banqueInfractions.infractions();
@@ -205,15 +202,6 @@ public class ClientPoste {
 				
 				try {
 					clientposte.ajouterDossier(nom, prenom, numPlaque, numPermis);
-				} catch (NotFound e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (CannotProceed e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (org.omg.CosNaming.NamingContextPackage.InvalidName e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
 				} catch (NoPermisExisteDejaException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -267,15 +255,6 @@ public class ClientPoste {
 				
 				try {
 					clientposte.ajouterInfraction(description, niveauGravite);
-				} catch (NotFound e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (CannotProceed e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (org.omg.CosNaming.NamingContextPackage.InvalidName e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
 				} catch (NiveauHorsBornesException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -295,30 +274,20 @@ public class ClientPoste {
 			public void doAction(Menu m) {
 				clearConsole();
 				
-				try {
-					CollectionDossier dossiers = clientposte.dossiers();
-					if(dossiers.size() > 0)
-					{
-						System.out.println("Voici la liste des dossiers:");
-						for (int i = 0; i < dossiers.size(); ++i) {
-							Dossier d = dossiers.getDossier(i);
-							System.out.println("### " + d.id() + "###");
-							System.out.println(clientposte.toString(d));
-						}
-						System.out.println("--Fin de la liste --");
-					}else{
-						System.out.println("Aucun dossiers n'existe dans la Banque de dossier");
+				CollectionDossier dossiers = clientposte.dossiers();
+				if(dossiers.size() > 0)
+				{
+					System.out.println("Voici la liste des dossiers:");
+					for (int i = 0; i < dossiers.size(); ++i) {
+						Dossier d = dossiers.getDossier(i);
+						System.out.println("### " + d.id() + "###");
+						System.out.println(clientposte.toString(d));
 					}
-				} catch (NotFound e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (CannotProceed e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (org.omg.CosNaming.NamingContextPackage.InvalidName e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					System.out.println("--Fin de la liste --");
+				}else{
+					System.out.println("Aucun dossiers n'existe dans la Banque de dossier");
 				}
+
 				System.out.println(m.subMenutoString());
 			}
 			});
@@ -333,29 +302,18 @@ public class ClientPoste {
 			public void doAction(Menu m) {
 				clearConsole();
 
-				try {
-					CollectionInfraction infractions = clientposte.infractions();
-					if(infractions.size() > 0)
-					{
-						System.out.println("Voici la liste des infractions:");
-						for (int i = 0; i < infractions.size(); ++i) {
-							Infraction infra = infractions.getInfraction(i);
-							System.out.println("### " + infra.id() + "###");
-							System.out.println(clientposte.toString(infra));
-						}
-						System.out.println("--Fin de la liste --");
-					}else{
-						System.out.println("Aucune infraction n'existe dans la Banque d'infractions");
+				CollectionInfraction infractions = clientposte.infractions();
+				if(infractions.size() > 0)
+				{
+					System.out.println("Voici la liste des infractions:");
+					for (int i = 0; i < infractions.size(); ++i) {
+						Infraction infra = infractions.getInfraction(i);
+						System.out.println("### " + infra.id() + "###");
+						System.out.println(clientposte.toString(infra));
 					}
-				} catch (NotFound e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (CannotProceed e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (org.omg.CosNaming.NamingContextPackage.InvalidName e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					System.out.println("--Fin de la liste --");
+				}else{
+					System.out.println("Aucune infraction n'existe dans la Banque d'infractions");
 				}
 				System.out.println(m.subMenutoString());
 			}
