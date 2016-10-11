@@ -353,14 +353,18 @@ public class ClientVoiture {
 				while((tmp = sc.nextLine()) == "\n")
 					System.out.println("Entrée invalide");
 				numPermis = tmp;
-					
-				
+
 				Dossier d;
 				d = clientVoiture.trouverDossierParNumPermis(numPermis);
-				System.out.println("Voici le dossier trouve");
-				System.out.println("### " + d.id() + "###");
-				System.out.println(clientVoiture.toString(d));
-					
+				if(d != null)
+				{
+					System.out.println("Voici le dossier trouve");
+					System.out.println("### " + d.id() + "###");
+					System.out.println(clientVoiture.toString(d));
+				}else
+				{
+					System.out.println("Aucun dossier trouve");
+				}
 				System.out.println(m.subMenutoString());
 			}
 			});
@@ -551,7 +555,7 @@ public class ClientVoiture {
 				boolean invalide = true;
 				
 				Scanner sc = Terminal.getInScanner();
-				System.out.println("Identifiant de la reaction ?");
+				System.out.println("Identifiant de l'infraction ?");
 				while(invalide)
 				{
 					if((tmp = sc.nextLine()) != "\n" )
@@ -571,11 +575,12 @@ public class ClientVoiture {
 				
 				idInfraction = tmpInt;
 				
-				
-				
 				clientVoiture.ajouterInfractionAuDossierSelectionne(idInfraction);
 				
 				System.out.println("Votre infraction à ete ajouté au doossier selectionne");
+				
+				System.out.println(m.subMenutoString());
+				
 			}
 			});
 		

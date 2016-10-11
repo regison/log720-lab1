@@ -125,6 +125,9 @@ public class DossierImpl extends DossierPOA implements Comparable<DossierImpl> {
 		if (idInfraction !=0
 				&& !infractionsArray.contains(idInfraction)){
 			this.infractionsArray.add(idInfraction);
+			
+			//TODO recuperer le niveau de l'infraction afin de l'associer au dossier
+			// ServerPoste.get_BanqueInfraction.getInfraction(idInfraction);
 		}
 	}
 
