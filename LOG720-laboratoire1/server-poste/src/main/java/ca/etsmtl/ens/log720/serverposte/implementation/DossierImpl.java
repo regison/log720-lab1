@@ -45,7 +45,6 @@ public class DossierImpl extends DossierPOA implements Comparable<DossierImpl> {
 	 * @see ca.etsmtl.ens.log720.lab1.DossierOperations#id()
 	 */
 	public int id() {
-		// TODO Auto-generated method stub
 		return id;
 	}
 
@@ -53,7 +52,6 @@ public class DossierImpl extends DossierPOA implements Comparable<DossierImpl> {
 	 * @see ca.etsmtl.ens.log720.lab1.DossierOperations#nom()
 	 */
 	public String nom() {
-		// TODO Auto-generated method stub
 		return nom;
 	}
 
@@ -61,7 +59,6 @@ public class DossierImpl extends DossierPOA implements Comparable<DossierImpl> {
 	 * @see ca.etsmtl.ens.log720.lab1.DossierOperations#noPermis()
 	 */
 	public String noPermis() {
-		// TODO Auto-generated method stub
 		return noPermis;
 	}
 
@@ -69,7 +66,6 @@ public class DossierImpl extends DossierPOA implements Comparable<DossierImpl> {
 	 * @see ca.etsmtl.ens.log720.lab1.DossierOperations#noPlaque()
 	 */
 	public String noPlaque() {
-		// TODO Auto-generated method stub
 		return noPlaque;
 	}
 
@@ -77,7 +73,6 @@ public class DossierImpl extends DossierPOA implements Comparable<DossierImpl> {
 	 * @see ca.etsmtl.ens.log720.lab1.DossierOperations#prenom()
 	 */
 	public String prenom() {
-		// TODO Auto-generated method stub
 		return prenom;
 	}
 
@@ -85,7 +80,6 @@ public class DossierImpl extends DossierPOA implements Comparable<DossierImpl> {
 	 * @see ca.etsmtl.ens.log720.lab1.DossierOperations#niveau()
 	 */
 	public int niveau() {
-		// TODO Auto-generated method stub
 		return levelId;
 	}
 
