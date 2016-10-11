@@ -59,13 +59,13 @@ public class ModuleVoiture {
 	 * 
 	 */
 	public ModuleVoiture(ORB orb) throws InvalidName, AdapterInactive {
-		org.omg.PortableServer.POA poa = org.omg.PortableServer.POAHelper
+		_poa  = org.omg.PortableServer.POAHelper
 				.narrow(orb.resolve_initial_references("RootPOA"));
 
-		poa.the_POAManager().activate();
+		_poa.the_POAManager().activate();
 		
 		try {			
-			org.omg.CORBA.Object banqueReactions = poa.servant_to_reference(new BanqueReactionsImpl());
+			org.omg.CORBA.Object banqueReactions = _poa.servant_to_reference(new BanqueReactionsImpl());
 
 			PrintWriter ps = new PrintWriter(
 					new FileOutputStream(
