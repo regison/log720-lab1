@@ -2,6 +2,7 @@ package ca.etsmtl.ens.log720.serverposte;
 
 import org.omg.CORBA.ORB;
 import org.omg.CORBA.ORBPackage.InvalidName;
+import org.omg.CosNaming.NameComponent;
 import org.omg.CosNaming.NamingContextExt;
 import org.omg.CosNaming.NamingContextExtHelper;
 import org.omg.CosNaming.NamingContextPackage.CannotProceed;
@@ -10,6 +11,7 @@ import org.omg.PortableServer.POAManagerPackage.AdapterInactive;
 import org.omg.PortableServer.POAPackage.ServantNotActive;
 import org.omg.PortableServer.POAPackage.WrongPolicy;
 
+import ca.etsmtl.ens.log720.lab1.BanqueDossiersHelper;
 import ca.etsmtl.ens.log720.serverposte.implementation.BanqueDossiersImpl;
 import ca.etsmtl.ens.log720.serverposte.implementation.BanqueInfractionsImpl;
 
@@ -39,15 +41,25 @@ public class ServerPoste {
 		poa.the_POAManager().activate();
 		
 		try {
-			org.omg.CORBA.Object banqueInfractions = poa.servant_to_reference(new BanqueInfractionsImpl());
-			org.omg.CORBA.Object banqueDossiers = poa.servant_to_reference(new BanqueDossiersImpl());
+			org.omg.PortableServer.Servant servantBanqueDossiers = new BanqueDossiersImpl();
+			org.omg.PortableServer.Servant servantBanqueInfractions = new BanqueInfractionsImpl();
+			
+			org.omg.CORBA.Object banqueInfractions = poa.servant_to_reference(servantBanqueDossiers);
+			org.omg.CORBA.Object banqueDossiers = poa.servant_to_reference(servantBanqueInfractions);
 			
 			NamingContextExt nc = NamingContextExtHelper.narrow(orb
 					.resolve_initial_references("NameService"));
 			
-			nc.rebind(nc.to_name("BanqueInfractions"), banqueInfractions);
-			nc.rebind(nc.to_name("BanqueDossiers"), banqueDossiers);
+			NameComponent[] name = new NameComponent[] { new NameComponent(
+					"BanqueDossiers", "service") };
+
+			nc.rebind(name, banqueDossiers);
 			
+			name = new NameComponent[] { new NameComponent(
+					"BanqueInfractions", "service") };
+
+			nc.rebind(name, banqueInfractions);
+						
 		} catch (ServantNotActive e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
