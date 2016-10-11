@@ -185,8 +185,8 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA {
 	 */
 	public void ajouterInfractionAuDossier(int idDossier, int idInfraction) throws InvalidIdException {
 		
-			if (idDossier ! = 0 &&  idInfraction != 0){
-				DossierImpl dossier = trouverDossierParId(idDossier);
+			if (idDossier != 0 &&  idInfraction != 0){
+				Dossier dossier = trouverDossierParId(idDossier);
 				
 				if (dossier != null)
 					dossier.ajouterInfractionAListe(idInfraction);				
@@ -200,8 +200,8 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA {
 	 */
 	public void ajouterReactionAuDossier(int idDossier, int idReaction) throws InvalidIdException {
 
-		if (idDossier ! = 0 &&  idReaction != 0){
-			DossierImpl dossier = trouverDossierParId(idDossier);
+		if (idDossier != 0 &&  idReaction != 0){
+			Dossier dossier = trouverDossierParId(idDossier);
 			
 			if (dossier != null)
 				dossier.ajouterReactionAListe(idReaction);				
