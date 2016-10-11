@@ -1,7 +1,7 @@
-C:\Users\charly\git\log720-lab1\LOG720-laboratoire1\server-poste\src\main\java\ca\etsmtl\ens\log720\serverposte\implementation\CollectionDossiersImpl.java
-C:\Users\charly\git\log720-lab1\LOG720-laboratoire1\server-poste\src\main\java\ca\etsmtl\ens\log720\serverposte\implementation\BanqueDossiersImpl.java
-C:\Users\charly\git\log720-lab1\LOG720-laboratoire1\server-poste\src\main\java\ca\etsmtl\ens\log720\serverposte\implementation\BanqueInfractionsImpl.java
-C:\Users\charly\git\log720-lab1\LOG720-laboratoire1\server-poste\src\main\java\ca\etsmtl\ens\log720\serverposte\implementation\DossierImpl.java
+C:\Users\charly\git\log720-lab1\LOG720-laboratoire1\server-poste\src\main\java\ca\etsmtl\ens\log720\serverposte\DossierImpl.java
+C:\Users\charly\git\log720-lab1\LOG720-laboratoire1\server-poste\src\main\java\ca\etsmtl\ens\log720\serverposte\InfractionImpl.java
+C:\Users\charly\git\log720-lab1\LOG720-laboratoire1\server-poste\src\main\java\ca\etsmtl\ens\log720\serverposte\BanqueInfractionsImpl.java
+C:\Users\charly\git\log720-lab1\LOG720-laboratoire1\server-poste\src\main\java\ca\etsmtl\ens\log720\serverposte\CollectionInfractionImpl.java
+C:\Users\charly\git\log720-lab1\LOG720-laboratoire1\server-poste\src\main\java\ca\etsmtl\ens\log720\serverposte\BanqueDossiersImpl.java
 C:\Users\charly\git\log720-lab1\LOG720-laboratoire1\server-poste\src\main\java\ca\etsmtl\ens\log720\serverposte\ServerPoste.java
-C:\Users\charly\git\log720-lab1\LOG720-laboratoire1\server-poste\src\main\java\ca\etsmtl\ens\log720\serverposte\implementation\CollectionInfractionImpl.java
-C:\Users\charly\git\log720-lab1\LOG720-laboratoire1\server-poste\src\main\java\ca\etsmtl\ens\log720\serverposte\implementation\InfractionImpl.java
+C:\Users\charly\git\log720-lab1\LOG720-laboratoire1\server-poste\src\main\java\ca\etsmtl\ens\log720\serverposte\CollectionDossiersImpl.java
