@@ -1,7 +1,9 @@
 /**
  * 
  */
-package ca.etsmtl.ens.log720.serverposte.implementation;
+package ca.etsmtl.ens.log720.serverposte;
+
+import java.io.Serializable;
 
 import ca.etsmtl.ens.log720.lab1.InfractionPOA;
 
@@ -9,8 +11,12 @@ import ca.etsmtl.ens.log720.lab1.InfractionPOA;
  * @author charly
  *
  */
-public class InfractionImpl extends InfractionPOA {
+public class InfractionImpl extends InfractionPOA implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -175799507713756969L;
 	private String description;
 	private int niveau;
 	private int id;

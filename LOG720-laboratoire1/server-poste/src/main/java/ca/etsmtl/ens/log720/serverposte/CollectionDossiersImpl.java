@@ -1,21 +1,25 @@
 /**
  * 
  */
-package ca.etsmtl.ens.log720.serverposte.implementation;
+package ca.etsmtl.ens.log720.serverposte;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import ca.etsmtl.ens.log720.lab1.CollectionDossierPOA;
 import ca.etsmtl.ens.log720.lab1.Dossier;
 import ca.etsmtl.ens.log720.lab1.DossierHelper;
-import ca.etsmtl.ens.log720.serverposte.ServerPoste;
 
 /**
  * @author charly
  *
  */
-public class CollectionDossiersImpl extends CollectionDossierPOA {
+public class CollectionDossiersImpl extends CollectionDossierPOA implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2015903828937541747L;
 	private ArrayList<DossierImpl> _listeDossiers;
 
 	/**
@@ -57,7 +61,7 @@ public class CollectionDossiersImpl extends CollectionDossierPOA {
 		return this._listeDossiers.size();
 	}
 	
-	protected ArrayList<DossierImpl> dossiers(){
+	public ArrayList<DossierImpl> dossiers(){
 		return this._listeDossiers;
 	}
 

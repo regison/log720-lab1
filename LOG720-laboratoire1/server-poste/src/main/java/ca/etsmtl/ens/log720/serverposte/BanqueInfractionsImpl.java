@@ -1,4 +1,6 @@
-package ca.etsmtl.ens.log720.serverposte.implementation;
+package ca.etsmtl.ens.log720.serverposte;
+
+import java.io.Serializable;
 
 import ca.etsmtl.ens.log720.lab1.BanqueInfractionsPOA;
 import ca.etsmtl.ens.log720.lab1.CollectionInfraction;
@@ -7,12 +9,16 @@ import ca.etsmtl.ens.log720.lab1.Dossier;
 import ca.etsmtl.ens.log720.lab1.Infraction;
 import ca.etsmtl.ens.log720.lab1.InfractionHelper;
 import ca.etsmtl.ens.log720.lab1.NiveauHorsBornesException;
-import ca.etsmtl.ens.log720.serverposte.ServerPoste;
 
-public class BanqueInfractionsImpl extends BanqueInfractionsPOA {
+public class BanqueInfractionsImpl extends BanqueInfractionsPOA implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3490019480328082024L;
 	private CollectionInfractionImpl _collectionInfractions;
 	
+
 	public BanqueInfractionsImpl() {
 		this._collectionInfractions = new CollectionInfractionImpl();
 	}
@@ -85,6 +91,10 @@ public class BanqueInfractionsImpl extends BanqueInfractionsPOA {
 		InfractionImpl infraction = new InfractionImpl(newId, description, niveau);
 		this._collectionInfractions.infractions().add(infraction);
 
+	}
+	
+	public CollectionInfractionImpl get_collectionInfractions() {
+		return _collectionInfractions;
 	}
 
 }

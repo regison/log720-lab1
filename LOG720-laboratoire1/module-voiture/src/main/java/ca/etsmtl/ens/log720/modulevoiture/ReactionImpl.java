@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ca.etsmtl.ens.log720.modulevoiture.implementation;
+package ca.etsmtl.ens.log720.modulevoiture;
 
 import ca.etsmtl.ens.log720.lab1.ReactionPOA;
 

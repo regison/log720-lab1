@@ -1,21 +1,25 @@
 /**
  * 
  */
-package ca.etsmtl.ens.log720.serverposte.implementation;
+package ca.etsmtl.ens.log720.serverposte;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import ca.etsmtl.ens.log720.lab1.CollectionInfractionPOA;
 import ca.etsmtl.ens.log720.lab1.Infraction;
 import ca.etsmtl.ens.log720.lab1.InfractionHelper;
-import ca.etsmtl.ens.log720.serverposte.ServerPoste;
 
 /**
  * @author charly
  *
  */
-public class CollectionInfractionImpl extends CollectionInfractionPOA {
+public class CollectionInfractionImpl extends CollectionInfractionPOA implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5782210045508528963L;
 	private ArrayList<InfractionImpl> _listeInfractions;
 
 	/**
@@ -57,7 +61,7 @@ public class CollectionInfractionImpl extends CollectionInfractionPOA {
 		return this._listeInfractions.size();
 	}
 
-	protected ArrayList<InfractionImpl> infractions() {
+	public ArrayList<InfractionImpl> infractions() {
 		return this._listeInfractions;
 	}
 

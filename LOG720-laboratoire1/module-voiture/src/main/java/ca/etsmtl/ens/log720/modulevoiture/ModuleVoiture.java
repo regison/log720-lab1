@@ -12,8 +12,6 @@ import org.omg.PortableServer.POAManagerPackage.AdapterInactive;
 import org.omg.PortableServer.POAPackage.ServantNotActive;
 import org.omg.PortableServer.POAPackage.WrongPolicy;
 
-import ca.etsmtl.ens.log720.modulevoiture.implementation.BanqueReactionsImpl;
-
 /**
  * 
  */

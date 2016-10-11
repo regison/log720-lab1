@@ -1,7 +1,9 @@
 /**
  * 
  */
-package ca.etsmtl.ens.log720.serverposte.implementation;
+package ca.etsmtl.ens.log720.serverposte;
+
+import java.io.Serializable;
 
 import ca.etsmtl.ens.log720.lab1.BanqueDossiersPOA;
 import ca.etsmtl.ens.log720.lab1.CollectionDossier;
@@ -10,15 +12,20 @@ import ca.etsmtl.ens.log720.lab1.Dossier;
 import ca.etsmtl.ens.log720.lab1.DossierHelper;
 import ca.etsmtl.ens.log720.lab1.InvalidIdException;
 import ca.etsmtl.ens.log720.lab1.NoPermisExisteDejaException;
-import ca.etsmtl.ens.log720.serverposte.ServerPoste;
 
 /**
  * @author charly
  * @modify by Regg
  *
  */
-public class BanqueDossiersImpl extends BanqueDossiersPOA {
+public class BanqueDossiersImpl extends BanqueDossiersPOA implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1168773267869815252L;
+	
+	
 	private CollectionDossiersImpl collectionDossiers;
 	/**
 	 * 
@@ -209,6 +216,10 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA {
 		else
 			throw new InvalidIdException();
 
+	}
+
+	public CollectionDossiersImpl getCollectionDossiers() {
+		return collectionDossiers;
 	}
 
 }

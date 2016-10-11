@@ -1,8 +1,9 @@
 /**
  * 
  */
-package ca.etsmtl.ens.log720.serverposte.implementation;
+package ca.etsmtl.ens.log720.serverposte;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import ca.etsmtl.ens.log720.lab1.DossierPOA;
@@ -11,8 +12,12 @@ import ca.etsmtl.ens.log720.lab1.DossierPOA;
  * @author charly
  *
  */
-public class DossierImpl extends DossierPOA implements Comparable<DossierImpl> {
+public class DossierImpl extends DossierPOA implements Comparable<DossierImpl>, Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1863962315556881885L;
 	private int id;
 	private String nom;
 	private String prenom;

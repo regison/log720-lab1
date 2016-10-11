@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ca.etsmtl.ens.log720.modulevoiture.implementation;
+package ca.etsmtl.ens.log720.modulevoiture;
 
 import org.omg.PortableServer.POA;
 
@@ -10,7 +10,6 @@ import ca.etsmtl.ens.log720.lab1.CollectionReaction;
 import ca.etsmtl.ens.log720.lab1.CollectionReactionHelper;
 import ca.etsmtl.ens.log720.lab1.Dossier;
 import ca.etsmtl.ens.log720.lab1.Reaction;
-import ca.etsmtl.ens.log720.modulevoiture.ModuleVoiture;
 
 
 /**

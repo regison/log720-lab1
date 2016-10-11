@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ca.etsmtl.ens.log720.modulevoiture.implementation;
+package ca.etsmtl.ens.log720.modulevoiture;
 
 import java.util.ArrayList;
 
@@ -10,7 +10,6 @@ import org.omg.PortableServer.POA;
 import ca.etsmtl.ens.log720.lab1.CollectionReactionPOA;
 import ca.etsmtl.ens.log720.lab1.Reaction;
 import ca.etsmtl.ens.log720.lab1.ReactionHelper;
-import ca.etsmtl.ens.log720.modulevoiture.ModuleVoiture;
 
 /**
  * @author charly
