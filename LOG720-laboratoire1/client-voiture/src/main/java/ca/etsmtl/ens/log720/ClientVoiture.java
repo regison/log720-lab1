@@ -267,7 +267,7 @@ public class ClientVoiture {
 			public void doAction(Menu m) {
 				
 				String tmp, nom, prenom;
-				Scanner sc = new Scanner(System.in);
+				Scanner sc = Terminal.getInScanner();
 				System.out.println("Nom ?");
 				while((tmp = sc.nextLine()) == "")
 					System.out.println("Entrée invalide");
@@ -307,7 +307,7 @@ public class ClientVoiture {
 		m.setAction(new Menu.ActionDelegate() {
 			public void doAction(Menu m) {
 				String tmp, numPlaque;
-				Scanner sc = new Scanner(System.in);
+				Scanner sc = Terminal.getInScanner();
 				System.out.println("Numero de plaque ?");
 				while((tmp = sc.nextLine()) == "")
 					System.out.println("Entrée invalide");
@@ -341,7 +341,7 @@ public class ClientVoiture {
 		m.setAction(new Menu.ActionDelegate() {
 			public void doAction(Menu m) {
 				String tmp, numPermis;
-				Scanner sc = new Scanner(System.in);
+				Scanner sc = Terminal.getInScanner();
 				System.out.println("Numero de permis ?");
 				while((tmp = sc.nextLine()) == "")
 					System.out.println("Entrée invalide");
@@ -371,7 +371,7 @@ public class ClientVoiture {
 			public void doAction(Menu m) {
 				clearConsole();
 				String tmp, numPermis;
-				Scanner sc = new Scanner(System.in);
+				Scanner sc = Terminal.getInScanner();
 				System.out.println("Numero de permis ?");
 				while((tmp = sc.nextLine()) == "")
 					System.out.println("Entrée invalide");
@@ -432,7 +432,7 @@ public class ClientVoiture {
 				int tmpInt = 0, niveauGravite;
 				boolean invalide = true;
 				
-				Scanner sc = new Scanner(System.in);
+				Scanner sc = Terminal.getInScanner();
 				System.out.println("Description ?");
 				while((tmp = sc.nextLine()) == "")
 					System.out.println("Entrée invalide");
@@ -480,7 +480,7 @@ public class ClientVoiture {
 				int tmpInt = 0, idReaction;
 				boolean invalide = true;
 				
-				Scanner sc = new Scanner(System.in);
+				Scanner sc = Terminal.getInScanner();
 				System.out.println("Identifiant de la reaction ?");
 				while(invalide)
 				{
@@ -549,7 +549,7 @@ public class ClientVoiture {
 				int tmpInt = 0, idInfraction;
 				boolean invalide = true;
 				
-				Scanner sc = new Scanner(System.in);
+				Scanner sc = Terminal.getInScanner();
 				System.out.println("Identifiant de la reaction ?");
 				while(invalide)
 				{
@@ -572,7 +572,6 @@ public class ClientVoiture {
 				
 				clientVoiture.ajouterInfractionAuDossierSelectionne(idInfraction);
 				
-				sc.close();
 				
 			}
 			});

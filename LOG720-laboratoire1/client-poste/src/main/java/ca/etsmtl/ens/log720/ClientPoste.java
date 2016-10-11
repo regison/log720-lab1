@@ -67,7 +67,7 @@ public class ClientPoste {
 		
 		NameComponent[] name = new NameComponent[] { new NameComponent(
 				"BanqueDossiers", "service") };
-
+		System.out.println(nc.resolve(name).getClass());
 		// resolve name to get a reference to our server
 		banqueDossiers = BanqueDossiersHelper.narrow(nc.resolve(name));
 		
@@ -177,7 +177,7 @@ public class ClientPoste {
 				System.out.println("Vous avez choisi d'ajouter un dossier dans la Banque de dossier.");
 				
 				String tmp, nom, prenom, numPlaque, numPermis;
-				Scanner sc = new Scanner(System.in);
+				Scanner sc = Terminal.getInScanner();
 				System.out.println("Nom ?");
 				while((tmp = sc.nextLine()) == "")
 					System.out.println("Entrée invalide");
@@ -198,8 +198,6 @@ public class ClientPoste {
 					System.out.println("Entrée invalide");
 				numPermis = tmp;
 				
-				sc.close();
-				
 				try {
 					clientposte.ajouterDossier(nom, prenom, numPlaque, numPermis);
 				} catch (NoPermisExisteDejaException e) {
@@ -216,7 +214,7 @@ public class ClientPoste {
 	}
 
 	private static Menu buildMenuAjouterInfractions() {
-		Menu m = new Menu("Ajouter un dossier a la banque de dossier");
+		Menu m = new Menu("Ajouter une infraction a la banque d'infractions");
 		m.AddSubMenu(buildGoBackMenu());
 		m.setAction(new Menu.ActionDelegate() {
 			public void doAction(Menu m) {
@@ -226,7 +224,7 @@ public class ClientPoste {
 				String tmp, description;
 				int tmpInt = 0, niveauGravite;
 				boolean invalide = true;
-				Scanner sc = new Scanner(System.in);
+				Scanner sc = Terminal.getInScanner();
 				System.out.println("Description ?");
 				while((tmp = sc.nextLine()) == "")
 					System.out.println("Entrée invalide");
@@ -250,8 +248,6 @@ public class ClientPoste {
 						System.out.println("Entrée invalide");
 				}
 				niveauGravite = tmpInt;
-				
-				sc.close();
 				
 				try {
 					clientposte.ajouterInfraction(description, niveauGravite);
