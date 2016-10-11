@@ -3,7 +3,6 @@
  */
 package ca.etsmtl.ens.log720.terminal;
 
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**

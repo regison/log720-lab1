@@ -33,7 +33,7 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA {
 	public CollectionDossier dossiers() {
 		try{
 			// Recuperer le POA cree dans le serveur
-			org.omg.PortableServer.POA srvPOA = ServerPoste.getPoa();
+			org.omg.PortableServer.POA srvPOA = ServerPoste.serverposte.getPoa();
 	
 			// Activer l'objet et retourne l'objet CORBA
 			org.omg.CORBA.Object obj = srvPOA.servant_to_reference(collectionDossiers);
@@ -64,7 +64,7 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA {
 		
 		try{
 			// Recuperer le POA cree dans le serveur
-			org.omg.PortableServer.POA srvPOA = ServerPoste.getPoa();
+			org.omg.PortableServer.POA srvPOA = ServerPoste.serverposte.getPoa();
 	
 			// Activer l'objet et retourne l'objet CORBA
 			org.omg.CORBA.Object obj = srvPOA.servant_to_reference(collDossier);
@@ -93,7 +93,7 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA {
 			
 			try{
 				// Recuperer le POA cree dans le serveur
-				org.omg.PortableServer.POA srvPOA = ServerPoste.getPoa();
+				org.omg.PortableServer.POA srvPOA = ServerPoste.serverposte.getPoa();
 		
 				// Activer l'objet et retourne l'objet CORBA
 				org.omg.CORBA.Object obj = srvPOA.servant_to_reference(collDossier);
@@ -118,7 +118,7 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA {
 					if (dossierFound.noPermis().toLowerCase()
 									.equals(noPermis.toLowerCase())){
 						// Recuperer le POA cree dans le serveur
-						org.omg.PortableServer.POA srvPOA = ServerPoste.getPoa();
+						org.omg.PortableServer.POA srvPOA = ServerPoste.serverposte.getPoa();
 				
 						// Activer l'objet et retourne l'objet CORBA
 						org.omg.CORBA.Object obj = srvPOA.servant_to_reference(dossierFound);
@@ -144,7 +144,7 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA {
 			for(DossierImpl dossierFound : collectionDossiers.dossiers()){
 				if (dossierFound.id() == idDossier){
 					// Recuperer le POA cree dans le serveur
-					org.omg.PortableServer.POA srvPOA = ServerPoste.getPoa();
+					org.omg.PortableServer.POA srvPOA = ServerPoste.serverposte.getPoa();
 			
 					// Activer l'objet et retourne l'objet CORBA
 					org.omg.CORBA.Object obj = srvPOA.servant_to_reference(dossierFound);

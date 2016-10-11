@@ -35,7 +35,7 @@ public class CollectionInfractionImpl extends CollectionInfractionPOA {
 			InfractionImpl infraction = this._listeInfractions.get(index);
 			
 			// Recuperer le POA cree dans le serveur
-			org.omg.PortableServer.POA srvPOA = ServerPoste.getPoa();
+			org.omg.PortableServer.POA srvPOA = ServerPoste.serverposte.getPoa();
 	
 			// Activer l'objet et retourne l'objet CORBA
 			org.omg.CORBA.Object obj = srvPOA.servant_to_reference(infraction);

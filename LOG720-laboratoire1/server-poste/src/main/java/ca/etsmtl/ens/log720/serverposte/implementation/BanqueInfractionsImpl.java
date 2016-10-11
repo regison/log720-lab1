@@ -20,7 +20,7 @@ public class BanqueInfractionsImpl extends BanqueInfractionsPOA {
 	public CollectionInfraction infractions() {
 		try{
 			// Recuperer le POA cree dans le serveur
-			org.omg.PortableServer.POA srvPOA = ServerPoste.getPoa();
+			org.omg.PortableServer.POA srvPOA = ServerPoste.serverposte.getPoa();
 	
 			// Activer l'objet et retourne l'objet CORBA
 			org.omg.CORBA.Object obj = srvPOA.servant_to_reference(_collectionInfractions);
@@ -45,7 +45,7 @@ public class BanqueInfractionsImpl extends BanqueInfractionsPOA {
 		
 		try{
 			// Recuperer le POA cree dans le serveur
-			org.omg.PortableServer.POA srvPOA = ServerPoste.getPoa();
+			org.omg.PortableServer.POA srvPOA = ServerPoste.serverposte.getPoa();
 	
 			// Activer l'objet et retourne l'objet CORBA
 			org.omg.CORBA.Object obj = srvPOA.servant_to_reference(collInfractions);
@@ -63,7 +63,7 @@ public class BanqueInfractionsImpl extends BanqueInfractionsPOA {
 			for(InfractionImpl infractionFound : _collectionInfractions.infractions()){
 				if (infractionFound.id() == idInfraction){
 					// Recuperer le POA cree dans le serveur
-					org.omg.PortableServer.POA srvPOA = ServerPoste.getPoa();
+					org.omg.PortableServer.POA srvPOA = ServerPoste.serverposte.getPoa();
 			
 					// Activer l'objet et retourne l'objet CORBA
 					org.omg.CORBA.Object obj = srvPOA.servant_to_reference(infractionFound);

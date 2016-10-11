@@ -3,15 +3,11 @@
  */
 package ca.etsmtl.ens.log720;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.util.Scanner;
 
 import org.omg.CORBA.ORBPackage.InvalidName;
@@ -21,8 +17,20 @@ import org.omg.CosNaming.NamingContextExtHelper;
 import org.omg.CosNaming.NamingContextPackage.CannotProceed;
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 
-import ca.etsmtl.ens.log720.terminal.*;
-import ca.etsmtl.ens.log720.lab1.*;
+import ca.etsmtl.ens.log720.lab1.BanqueDossiers;
+import ca.etsmtl.ens.log720.lab1.BanqueDossiersHelper;
+import ca.etsmtl.ens.log720.lab1.BanqueInfractions;
+import ca.etsmtl.ens.log720.lab1.BanqueInfractionsHelper;
+import ca.etsmtl.ens.log720.lab1.BanqueReactions;
+import ca.etsmtl.ens.log720.lab1.BanqueReactionsHelper;
+import ca.etsmtl.ens.log720.lab1.CollectionDossier;
+import ca.etsmtl.ens.log720.lab1.CollectionInfraction;
+import ca.etsmtl.ens.log720.lab1.CollectionReaction;
+import ca.etsmtl.ens.log720.lab1.Dossier;
+import ca.etsmtl.ens.log720.lab1.Infraction;
+import ca.etsmtl.ens.log720.lab1.Reaction;
+import ca.etsmtl.ens.log720.terminal.Menu;
+import ca.etsmtl.ens.log720.terminal.Terminal;
 
 
 /**

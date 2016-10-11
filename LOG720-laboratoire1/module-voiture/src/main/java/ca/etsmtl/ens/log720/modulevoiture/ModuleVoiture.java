@@ -6,31 +6,13 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
 
-import org.omg.CORBA.Context;
-import org.omg.CORBA.ContextList;
-import org.omg.CORBA.DomainManager;
-import org.omg.CORBA.ExceptionList;
-import org.omg.CORBA.NVList;
-import org.omg.CORBA.NamedValue;
 import org.omg.CORBA.ORB;
-import org.omg.CORBA.Object;
-import org.omg.CORBA.Policy;
-import org.omg.CORBA.Request;
-import org.omg.CORBA.SetOverrideType;
 import org.omg.CORBA.ORBPackage.InvalidName;
-import org.omg.CosNaming.NamingContextExt;
-import org.omg.CosNaming.NamingContextExtHelper;
-import org.omg.CosNaming.NamingContextPackage.CannotProceed;
-import org.omg.CosNaming.NamingContextPackage.NotFound;
 import org.omg.PortableServer.POAManagerPackage.AdapterInactive;
 import org.omg.PortableServer.POAPackage.ServantNotActive;
 import org.omg.PortableServer.POAPackage.WrongPolicy;
 
-import ca.etsmtl.ens.log720.lab1.Reaction;
 import ca.etsmtl.ens.log720.modulevoiture.implementation.BanqueReactionsImpl;
-import ca.etsmtl.ens.log720.modulevoiture.implementation.ReactionImpl;
-import ca.etsmtl.ens.log720.serverposte.implementation.BanqueDossiersImpl;
-import ca.etsmtl.ens.log720.serverposte.implementation.BanqueInfractionsImpl;
 
 /**
  * 

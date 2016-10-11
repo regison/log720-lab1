@@ -5,8 +5,6 @@ package ca.etsmtl.ens.log720.serverposte.implementation;
 
 import java.util.ArrayList;
 
-import org.omg.PortableServer.POA;
-
 import ca.etsmtl.ens.log720.lab1.CollectionDossierPOA;
 import ca.etsmtl.ens.log720.lab1.Dossier;
 import ca.etsmtl.ens.log720.lab1.DossierHelper;
@@ -39,7 +37,7 @@ public class CollectionDossiersImpl extends CollectionDossierPOA {
 			DossierImpl dossier = _listeDossiers.get(index);
 
 			// Recuperer le POA cree dans le serveur
-			org.omg.PortableServer.POA srvPOA = ServerPoste.getPoa();
+			org.omg.PortableServer.POA srvPOA = ServerPoste.serverposte.getPoa();
 
 			// Activer l'objet et retourne l'objet CORBA
 			org.omg.CORBA.Object obj = srvPOA.servant_to_reference(dossier);

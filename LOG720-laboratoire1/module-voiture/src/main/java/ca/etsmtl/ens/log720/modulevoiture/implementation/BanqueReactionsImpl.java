@@ -3,8 +3,6 @@
  */
 package ca.etsmtl.ens.log720.modulevoiture.implementation;
 
-import java.util.ArrayList;
-
 import org.omg.PortableServer.POA;
 
 import ca.etsmtl.ens.log720.lab1.BanqueReactionsPOA;

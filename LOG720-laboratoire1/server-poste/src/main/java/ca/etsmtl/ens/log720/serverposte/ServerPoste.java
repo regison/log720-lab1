@@ -10,8 +10,6 @@ import org.omg.CosNaming.NamingContextPackage.NotFound;
 import org.omg.PortableServer.POAManagerPackage.AdapterInactive;
 import org.omg.PortableServer.POAPackage.ServantNotActive;
 import org.omg.PortableServer.POAPackage.WrongPolicy;
-
-import ca.etsmtl.ens.log720.lab1.BanqueDossiersHelper;
 import ca.etsmtl.ens.log720.serverposte.implementation.BanqueDossiersImpl;
 import ca.etsmtl.ens.log720.serverposte.implementation.BanqueInfractionsImpl;
 
@@ -25,8 +23,8 @@ import ca.etsmtl.ens.log720.serverposte.implementation.BanqueInfractionsImpl;
  */
 public class ServerPoste {
 
-	private static ServerPoste serverposte;
-	private static org.omg.PortableServer.POA poa;
+	public static ServerPoste serverposte;
+	private org.omg.PortableServer.POA poa;
 	
 	/**
 	 * @param orb 
@@ -80,7 +78,7 @@ public class ServerPoste {
 		
 	}
 	
-	public static org.omg.PortableServer.POA getPoa() {
+	public org.omg.PortableServer.POA getPoa() {
 		return poa;
 	}
 
