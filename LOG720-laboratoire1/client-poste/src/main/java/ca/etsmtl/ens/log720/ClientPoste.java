@@ -180,22 +180,22 @@ public class ClientPoste {
 				String tmp, nom, prenom, numPlaque, numPermis;
 				Scanner sc = Terminal.getInScanner();
 				System.out.println("Nom ?");
-				while((tmp = sc.nextLine()) == "")
+				while((tmp = sc.nextLine()) == "\n")
 					System.out.println("Entrée invalide");
 				nom = tmp;
 				
 				System.out.println("Prénom ?");
-				while((tmp = sc.nextLine()) == "")
+				while((tmp = sc.nextLine()) == "\n")
 					System.out.println("Entrée invalide");
 				prenom = tmp;
 				
 				System.out.println("Numéro de plaque ?");
-				while((tmp = sc.nextLine()) == "")
+				while((tmp = sc.nextLine()) == "\n")
 					System.out.println("Entrée invalide");
 				numPlaque = tmp;
 				
 				System.out.println("Numéro de permis ?");
-				while((tmp = sc.nextLine()) == "")
+				while((tmp = sc.nextLine()) == "\n")
 					System.out.println("Entrée invalide");
 				numPermis = tmp;
 				
@@ -227,14 +227,14 @@ public class ClientPoste {
 				boolean invalide = true;
 				Scanner sc = Terminal.getInScanner();
 				System.out.println("Description ?");
-				while((tmp = sc.nextLine()) == "")
+				while((tmp = sc.nextLine()) == "\n")
 					System.out.println("Entrée invalide");
 				description = tmp;
 				
 				System.out.println("Niveau de Gravite ?");
 				while(invalide)
 				{
-					if((tmp = sc.nextLine()) != "" )
+					if((tmp = sc.nextLine()) != "\n" )
 					{
 						try
 						{

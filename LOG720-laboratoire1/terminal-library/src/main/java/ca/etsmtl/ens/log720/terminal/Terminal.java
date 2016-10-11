@@ -29,24 +29,41 @@ public class Terminal {
 	public void launchTerminal(){
 		Menu m;		
 		this.navigateTo(mainMenu);
+		
+		String tmp;
+		boolean invalide;
+		int menuIndex = -1;
 		while(!exit_term){
+			tmp = "";
+			invalide = true;
+			menuIndex = -1;
 			
-			int menuIndex = -1;
-			try{
-				menuIndex = inScanner.nextInt();
-				if(menuIndex < currentMenu.getSubMenus().size()){
-					m = currentMenu.getSubMenus().get(menuIndex);
-					this.navigateTo(m);
+			while(invalide)
+			{
+				if((tmp = inScanner.nextLine()) != "\n" )
+				{
+					try
+					{
+						menuIndex = Integer.parseInt(tmp);
+						invalide = false;
+						if(menuIndex < currentMenu.getSubMenus().size()){
+							m = currentMenu.getSubMenus().get(menuIndex);
+							this.navigateTo(m);
+						}
+						else
+						{
+							System.out.println("This menu does not exist");
+						}
+						
+					}
+					catch(NumberFormatException nfEx){
+						invalide = true;
+						System.out.println("This menu does not exist");
+					}
 				}
 				else
-				{
-					System.out.println("This menu does not exist");
-				}
-			}catch(InputMismatchException imex){
-				inScanner.nextLine();
-				System.out.println("This menu does not exist");
-			}
-			
+					System.out.println("Entrée invalide");
+			}		
 			
 		}
 		

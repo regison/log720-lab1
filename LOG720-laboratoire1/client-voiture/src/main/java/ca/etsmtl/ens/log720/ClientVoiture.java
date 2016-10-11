@@ -271,12 +271,12 @@ public class ClientVoiture {
 				String tmp, nom, prenom;
 				Scanner sc = Terminal.getInScanner();
 				System.out.println("Nom ?");
-				while((tmp = sc.nextLine()) == "")
+				while((tmp = sc.nextLine()) == "\n")
 					System.out.println("Entrée invalide");
 				nom = tmp;
 				
 				System.out.println("Prenom ?");
-				while((tmp = sc.nextLine()) == "")
+				while((tmp = sc.nextLine()) == "\n")
 					System.out.println("Entrée invalide");
 				prenom = tmp;
 				
@@ -311,7 +311,7 @@ public class ClientVoiture {
 				String tmp, numPlaque;
 				Scanner sc = Terminal.getInScanner();
 				System.out.println("Numero de plaque ?");
-				while((tmp = sc.nextLine()) == "")
+				while((tmp = sc.nextLine()) == "\n")
 					System.out.println("Entrée invalide");
 				numPlaque = tmp;
 							
@@ -345,7 +345,7 @@ public class ClientVoiture {
 				String tmp, numPermis;
 				Scanner sc = Terminal.getInScanner();
 				System.out.println("Numero de permis ?");
-				while((tmp = sc.nextLine()) == "")
+				while((tmp = sc.nextLine()) == "\n")
 					System.out.println("Entrée invalide");
 				numPermis = tmp;
 					
@@ -375,7 +375,7 @@ public class ClientVoiture {
 				String tmp, numPermis;
 				Scanner sc = Terminal.getInScanner();
 				System.out.println("Numero de permis ?");
-				while((tmp = sc.nextLine()) == "")
+				while((tmp = sc.nextLine()) == "\n")
 					System.out.println("Entrée invalide");
 				numPermis = tmp;		
 				
@@ -436,14 +436,14 @@ public class ClientVoiture {
 				
 				Scanner sc = Terminal.getInScanner();
 				System.out.println("Description ?");
-				while((tmp = sc.nextLine()) == "")
+				while((tmp = sc.nextLine()) == "\n")
 					System.out.println("Entrée invalide");
 				description = tmp;
 				
 				System.out.println("Niveau de Gravite ?");
 				while(invalide)
 				{
-					if((tmp = sc.nextLine()) != "" )
+					if((tmp = sc.nextLine()) != "\n" )
 					{
 						try
 						{
@@ -486,7 +486,7 @@ public class ClientVoiture {
 				System.out.println("Identifiant de la reaction ?");
 				while(invalide)
 				{
-					if((tmp = sc.nextLine()) != "" )
+					if((tmp = sc.nextLine()) != "\n" )
 					{
 						try
 						{
@@ -555,7 +555,7 @@ public class ClientVoiture {
 				System.out.println("Identifiant de la reaction ?");
 				while(invalide)
 				{
-					if((tmp = sc.nextLine()) != "" )
+					if((tmp = sc.nextLine()) != "\n" )
 					{
 						try
 						{
