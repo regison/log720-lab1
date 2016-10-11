@@ -5,9 +5,12 @@ package ca.etsmtl.ens.log720.serverposte.implementation;
 
 import ca.etsmtl.ens.log720.lab1.BanqueDossiersPOA;
 import ca.etsmtl.ens.log720.lab1.CollectionDossier;
+import ca.etsmtl.ens.log720.lab1.CollectionDossierHelper;
 import ca.etsmtl.ens.log720.lab1.Dossier;
+import ca.etsmtl.ens.log720.lab1.DossierHelper;
 import ca.etsmtl.ens.log720.lab1.InvalidIdException;
 import ca.etsmtl.ens.log720.lab1.NoPermisExisteDejaException;
+import ca.etsmtl.ens.log720.serverposte.ServerPoste;
 
 /**
  * @author charly
@@ -16,15 +19,12 @@ import ca.etsmtl.ens.log720.lab1.NoPermisExisteDejaException;
  */
 public class BanqueDossiersImpl extends BanqueDossiersPOA {
 
-	private ColletionDossierImpl collectionDossiers;
-	private org.omg.CORBA.ORB ord;
+	private CollectionDossiersImpl collectionDossiers;
 	/**
 	 * 
 	 */
 	public BanqueDossiersImpl() {
-		// TODO Auto-generated constructor stub
-		orb = org.omg.CORBA.ORB.init(args, null);
-		colletionsDossiers =  new CollectionDossierImpl();
+		collectionDossiers =  new CollectionDossiersImpl();
 	}
 
 	/* (non-Javadoc)
@@ -33,51 +33,77 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA {
 	public CollectionDossier dossiers() {
 		try{
 			// Recuperer le POA cree dans le serveur
-			ServeurPoste srvPOA  = new ServerPoste(orb);
-			// Activer l'objet et retourne l'objet CORBA
-			org.omg.CORBA.Object obj = srvPOA.servant_to_reference(_CollectionDossiers);
-			// Retourner une Collection de dossiers
-			return CollectionDossierHelper.narrow(obj);}
-		catch(Exception e){
-		
-		}
+			org.omg.PortableServer.POA srvPOA = ServerPoste.getPoa();
 	
+			// Activer l'objet et retourne l'objet CORBA
+			org.omg.CORBA.Object obj = srvPOA.servant_to_reference(collectionDossiers);
+			// Retourner une Collection de dossiers
+			return CollectionDossierHelper.narrow(obj);
+			
+		} catch (Exception e) {
+			System.out.println("Erreur retour de l'objet CollectionReactions : "	+ e);
+			return null;
+		}
 	}
 
 	/* (non-Javadoc)
 	 * @see ca.etsmtl.ens.log720.lab1.BanqueDossiersOperations#trouverDossiersParPlaque(java.lang.String)
 	 */
 	public CollectionDossier trouverDossiersParPlaque(String plaque) {
+		CollectionDossiersImpl collDossier = new CollectionDossiersImpl();
 		
-		if(!plaque.isEmpty()){
-			int pos = 0;
-			for(DossierImpl dossierFound : collectionDossiers){
-				if (dossierFound.getPlaqueId()().toLowerCase()
-								.equals(plaque.toLowerCase())){
-					return collectionDossiers.getDossier(pos);
-				}
-				pos +=1 ;				
-			}
+		if(plaque.isEmpty())
+			return null;
+		
+		for(DossierImpl dossierFound : collectionDossiers.dossiers()){
+			if (dossierFound.noPlaque().toLowerCase()
+							.equals(plaque.toLowerCase())){
+				collDossier.dossiers().add(dossierFound);
+			}			
 		}
-		return null;
+		
+		try{
+			// Recuperer le POA cree dans le serveur
+			org.omg.PortableServer.POA srvPOA = ServerPoste.getPoa();
+	
+			// Activer l'objet et retourne l'objet CORBA
+			org.omg.CORBA.Object obj = srvPOA.servant_to_reference(collDossier);
+			// Retourner une Collection de dossiers
+			return CollectionDossierHelper.narrow(obj);
+			
+		} catch (Exception e) {
+			System.out.println("Erreur retour de l'objet Etudiant : " + e);
+			return null;
+		}	
 	}
 
 	/* (non-Javadoc)
 	 * @see ca.etsmtl.ens.log720.lab1.BanqueDossiersOperations#trouverDossiersParNom(java.lang.String, java.lang.String)
 	 */
 	public CollectionDossier trouverDossiersParNom(String nom, String prenom) {
+		CollectionDossiersImpl collDossier = new CollectionDossiersImpl();
 		
 		if(!nom.isEmpty() || !prenom.isEmpty()){
-			int pos = 0;
-			for(DossierImpl dossierFound : collectionDossiers){
-				if (dossierFound.getNom().toLowerCase()
-								.equals(nom.toLowerCase()) ||
-					dossierFound.getPrenom().toLowerCase()
-								.equals(prenom.toLowerCase())){
-					return collectionDossiers.getDossier(pos);
-				}
-				pos +=1 ;				
+			for(DossierImpl dossierFound : collectionDossiers.dossiers()){
+				if (dossierFound.nom().toLowerCase().equals(nom.toLowerCase()) 
+						&& dossierFound.prenom().toLowerCase().equals(prenom.toLowerCase())){
+					collDossier.dossiers().add(dossierFound);
+				}			
 			}
+			
+			try{
+				// Recuperer le POA cree dans le serveur
+				org.omg.PortableServer.POA srvPOA = ServerPoste.getPoa();
+		
+				// Activer l'objet et retourne l'objet CORBA
+				org.omg.CORBA.Object obj = srvPOA.servant_to_reference(collDossier);
+				// Retourner une Collection de dossiers
+				return CollectionDossierHelper.narrow(obj);
+				
+			} catch (Exception e) {
+				System.out.println("Erreur retour de l'objet Etudiant : " + e);
+				return null;
+			}	
 		}
 		return null;
 	}
@@ -86,17 +112,27 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA {
 	 * @see ca.etsmtl.ens.log720.lab1.BanqueDossiersOperations#trouverDossierParPermis(java.lang.String)
 	 */
 	public Dossier trouverDossierParPermis(String noPermis) {
-
-		if(!noPermis.isEmpty()){
-			int pos = 0;
-			for(DossierImpl dossierFound : collectionDossiers){
-				if (dossierFound.getPermisId().toLowerCase()
-								.equals(noPermis.toLowerCase())){
-					return collectionDossiers.getDossier(pos);
+		try{
+			if(!noPermis.isEmpty()){
+				for(DossierImpl dossierFound : collectionDossiers.dossiers()){
+					if (dossierFound.noPermis().toLowerCase()
+									.equals(noPermis.toLowerCase())){
+						// Recuperer le POA cree dans le serveur
+						org.omg.PortableServer.POA srvPOA = ServerPoste.getPoa();
+				
+						// Activer l'objet et retourne l'objet CORBA
+						org.omg.CORBA.Object obj = srvPOA.servant_to_reference(dossierFound);
+						// Retourner une Collection de dossiers
+						return DossierHelper.narrow(obj);
+					}
+				
 				}
-				pos +=1 ;				
 			}
+		} catch (Exception e) {
+			System.out.println("Erreur retour de l'objet Etudiant : " + e);
+			return null;
 		}	
+		
 		return null;
 	}
 
@@ -104,16 +140,25 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA {
 	 * @see ca.etsmtl.ens.log720.lab1.BanqueDossiersOperations#trouverDossierParId(int)
 	 */
 	public Dossier trouverDossierParId(int idDossier) {
-		// TODO Auto-generated method stub
-		if(!noPermis.isEmpty()){
-			int pos = 0;
-			for(DossierImpl dossierFound : collectionDossiers){
-				if (dossierFound.id() == idDossier)){
-					return collectionDossiers.getDossier(pos);
-				}
-				pos +=1 ;				
+		try{
+			for(DossierImpl dossierFound : collectionDossiers.dossiers()){
+				if (dossierFound.id() == idDossier){
+					// Recuperer le POA cree dans le serveur
+					org.omg.PortableServer.POA srvPOA = ServerPoste.getPoa();
+			
+					// Activer l'objet et retourne l'objet CORBA
+					org.omg.CORBA.Object obj = srvPOA.servant_to_reference(dossierFound);
+					// Retourner une Collection de dossiers
+					return DossierHelper.narrow(obj);
+				}			
 			}
+
+		} catch (Exception e) {
+			System.out.println("Erreur retour de l'objet Etudiant : " + e);
+			return null;
 		}	
+		
+		return null;
 	}
 
 	/* (non-Javadoc)
@@ -128,10 +173,10 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA {
 		DossierImpl newDossier = new DossierImpl(idDossier, nom, prenom, noPlaque, noPermis);
 		
 		//Verify if file already exists if not add it
-		if (!collectionDossiers.contains(newDossier))
-			collectionDossiers.add(newDossier);
+		if (!collectionDossiers.dossiers().contains(newDossier))
+			collectionDossiers.dossiers().add(newDossier);
 		else
-			throws new Exception();
+			throw new NoPermisExisteDejaException();
 
 	}
 

@@ -11,22 +11,34 @@ import ca.etsmtl.ens.log720.lab1.DossierPOA;
  * @author charly
  *
  */
-public class DossierImpl extends DossierPOA {
+public class DossierImpl extends DossierPOA implements Comparable<DossierImpl> {
 
 	private int id;
 	private String nom;
 	private String prenom;
-	private String permisId;
-	private String plaqueId;
+	private String noPermis;
+	private String noPlaque;
 	private int levelId;
 
 	private ArrayList<Integer> infractionsArray ;
 	private ArrayList<Integer> reactionsArray ;
 	/**
+	 * @param noPermis 
+	 * @param noPlaque 
+	 * @param prenom2 
+	 * @param nom2 
+	 * @param idDossier 
 	 * 
 	 */
-	public DossierImpl() {
-		// TODO Auto-generated constructor stub
+	public DossierImpl(int idDossier, String nom, String prenom, String noPlaque, String noPermis) {
+		this.id = idDossier;
+		this.nom = nom;
+		this.prenom = prenom;
+		this.noPermis = noPermis;
+		this.noPlaque = noPlaque;
+		
+		infractionsArray = new ArrayList<Integer>();
+		reactionsArray = new ArrayList<Integer>();
 	}
 
 	/* (non-Javadoc)
@@ -50,7 +62,7 @@ public class DossierImpl extends DossierPOA {
 	 */
 	public String noPermis() {
 		// TODO Auto-generated method stub
-		return permisId;
+		return noPermis;
 	}
 
 	/* (non-Javadoc)
@@ -58,7 +70,7 @@ public class DossierImpl extends DossierPOA {
 	 */
 	public String noPlaque() {
 		// TODO Auto-generated method stub
-		return plaqueId;
+		return noPlaque;
 	}
 
 	/* (non-Javadoc)
@@ -81,23 +93,32 @@ public class DossierImpl extends DossierPOA {
 	 * @see ca.etsmtl.ens.log720.lab1.DossierOperations#getListeInfraction()
 	 */
 	public int[] getListeInfraction() {
-		// TODO Auto-generated method stub
-		return infractionsArray.toArray();
+		int[] infractionsId = new int[infractionsArray.size()];
+		for (int i=0; i < infractionsArray.size(); i++)
+	    {
+			infractionsId[i] = infractionsArray.get(i).intValue();
+	    }
+		return infractionsId;
 	}
 
 	/* (non-Javadoc)
 	 * @see ca.etsmtl.ens.log720.lab1.DossierOperations#getListeReaction()
 	 */
 	public int[] getListeReaction() {
-		// TODO Auto-generated method stub
-		return reactionsArray.toArray();
+		int[] reactionsId = new int[reactionsArray.size()];
+		for (int i=0; i < reactionsArray.size(); i++)
+	    {
+			reactionsId[i] = reactionsArray.get(i).intValue();
+	    }
+		return reactionsId;
 	}
 
 	/* (non-Javadoc)
 	 * @see ca.etsmtl.ens.log720.lab1.DossierOperations#ajouterReactionAListe(int)
 	 */
 	public void ajouterReactionAListe(int idReaction) {
-		if (idReaction != 0){
+		if (idReaction != 0 
+				&& !reactionsArray.contains(idReaction)){
 			this.reactionsArray.add(idReaction);
 		}
 
@@ -107,7 +128,8 @@ public class DossierImpl extends DossierPOA {
 	 * @see ca.etsmtl.ens.log720.lab1.DossierOperations#ajouterInfractionAListe(int)
 	 */
 	public void ajouterInfractionAListe(int idInfraction) {
-		if (idInfraction !=0){
+		if (idInfraction !=0
+				&& !infractionsArray.contains(idInfraction)){
 			this.infractionsArray.add(idInfraction);
 		}
 	}
@@ -118,6 +140,10 @@ public class DossierImpl extends DossierPOA {
 	public String _toString() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public int compareTo(DossierImpl o) {
+		return this.noPermis.compareTo(o.noPermis);
 	}
 
 }

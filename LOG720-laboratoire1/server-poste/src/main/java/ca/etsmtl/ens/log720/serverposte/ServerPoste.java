@@ -24,7 +24,8 @@ import ca.etsmtl.ens.log720.serverposte.implementation.BanqueInfractionsImpl;
 public class ServerPoste {
 
 	private static ServerPoste serverposte;
-
+	private static org.omg.PortableServer.POA poa;
+	
 	/**
 	 * @param orb 
 	 * @throws InvalidName 
@@ -32,7 +33,7 @@ public class ServerPoste {
 	 * 
 	 */
 	public ServerPoste(ORB orb) throws InvalidName, AdapterInactive {
-		org.omg.PortableServer.POA poa = org.omg.PortableServer.POAHelper
+		poa = org.omg.PortableServer.POAHelper
 				.narrow(orb.resolve_initial_references("RootPOA"));
 
 		poa.the_POAManager().activate();
@@ -65,6 +66,10 @@ public class ServerPoste {
 		}
 		
 		
+	}
+	
+	public static org.omg.PortableServer.POA getPoa() {
+		return poa;
 	}
 
 	/**
