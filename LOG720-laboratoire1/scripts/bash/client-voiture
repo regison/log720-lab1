@@ -1,3 +1,9 @@
 #!/bin/bash
+
+myTitle=$0
+echo -e '\033]2;'$myTitle'\007'
+
+export PATH=$JACORB_HOME/bin:$PATH
+
 source run.properties
-jaco $CLIENT $@
+jaco $CLIENT_VOITURE $@
