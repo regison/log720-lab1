@@ -129,7 +129,7 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA {
 				}
 			}
 		} catch (Exception e) {
-			System.out.println("Erreur retour de l'objet Etudiant : " + e);
+			System.out.println("Erreur retour de l'objet Dossier par permis : " + e);
 			return null;
 		}	
 		
@@ -154,7 +154,7 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA {
 			}
 
 		} catch (Exception e) {
-			System.out.println("Erreur retour de l'objet Etudiant : " + e);
+			System.out.println("Erreur retour de l'objet Dossier par Id : " + e);
 			return null;
 		}	
 		
@@ -184,15 +184,30 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA {
 	 * @see ca.etsmtl.ens.log720.lab1.BanqueDossiersOperations#ajouterInfractionAuDossier(int, int)
 	 */
 	public void ajouterInfractionAuDossier(int idDossier, int idInfraction) throws InvalidIdException {
-		// TODO Auto-generated method stub
-
+		
+			if (idDossier ! = 0 &&  idInfraction != 0){
+				DossierImpl dossier = trouverDossierParId(idDossier);
+				
+				if (dossier != null)
+					dossier.ajouterInfractionAListe(idInfraction);				
+			}
+			else
+				throw new InvalidIdException();
 	}
 
 	/* (non-Javadoc)
 	 * @see ca.etsmtl.ens.log720.lab1.BanqueDossiersOperations#ajouterReactionAuDossier(int, int)
 	 */
 	public void ajouterReactionAuDossier(int idDossier, int idReaction) throws InvalidIdException {
-		// TODO Auto-generated method stub
+
+		if (idDossier ! = 0 &&  idReaction != 0){
+			DossierImpl dossier = trouverDossierParId(idDossier);
+			
+			if (dossier != null)
+				dossier.ajouterReactionAListe(idReaction);				
+		}
+		else
+			throw new InvalidIdException();
 
 	}
 

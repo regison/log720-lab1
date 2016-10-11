@@ -18,8 +18,6 @@ import ca.etsmtl.ens.log720.serverposte.ServerPoste;
  */
 public class CollectionDossiersImpl extends CollectionDossierPOA {
 
-	
-
 	private ArrayList<DossierImpl> _listeDossiers;
 
 	/**
