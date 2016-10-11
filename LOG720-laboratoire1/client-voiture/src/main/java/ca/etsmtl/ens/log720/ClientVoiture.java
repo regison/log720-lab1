@@ -193,6 +193,8 @@ public class ClientVoiture {
 		Menu mainMenu = new Menu("Menu Principal");
 		mainMenu.setAction(new Menu.ActionDelegate() {
 			public void doAction(Menu m) {
+				clearConsole();
+				
 				System.out.println(m);
 				System.out.println("Que voulez-vous faire ?");
 				System.out.println(m.subMenutoString());
