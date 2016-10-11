@@ -81,7 +81,7 @@ public class ClientPoste {
 	protected void ajouterDossier(String nom, String prenom, String numPlaque, String numPermis) throws NoPermisExisteDejaException {
 		
 		// Ajout d'un dossier
-		banqueDossiers.ajouterDossier(nom, prenom, numPlaque, numPermis);
+		banqueDossiers.ajouterDossier(nom, prenom, numPermis, numPlaque);
 		
 	}
 	
@@ -338,7 +338,7 @@ public class ClientPoste {
 	        if (os.contains("Windows"))
 	            Runtime.getRuntime().exec("cls");
 	        else
-	            Runtime.getRuntime().exec("clear");
+	        	System.out.print("\033[H\033[2J");
 	    }
 	    catch (final Exception e)
 	    {

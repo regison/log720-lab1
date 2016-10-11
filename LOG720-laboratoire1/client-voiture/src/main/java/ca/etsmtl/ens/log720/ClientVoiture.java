@@ -105,7 +105,6 @@ public class ClientVoiture {
 			BufferedReader br = new BufferedReader(isr);
 			String ior = br.readLine();
 			banqueReactions = BanqueReactionsHelper.narrow(orb.string_to_object(ior));
-			
 			br.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -461,7 +460,8 @@ public class ClientVoiture {
 				}
 				niveauGravite = tmpInt;
 
-					clientVoiture.ajouterReaction(description, niveauGravite);
+				clientVoiture.ajouterReaction(description, niveauGravite);
+				System.out.println("Votre reaction à ete ajouté");
 				
 				System.out.println(m.subMenutoString());
 			}
@@ -504,6 +504,7 @@ public class ClientVoiture {
 				
 				clientVoiture.ajouterReactionAuDossierSelectionne(idReaction);
 
+				System.out.println("Votre reaction à ete ajouté au dossier selectione");
 			}
 			});
 		
@@ -570,9 +571,11 @@ public class ClientVoiture {
 				
 				idInfraction = tmpInt;
 				
+				
+				
 				clientVoiture.ajouterInfractionAuDossierSelectionne(idInfraction);
 				
-				
+				System.out.println("Votre infraction à ete ajouté au doossier selectionne");
 			}
 			});
 		
@@ -598,7 +601,7 @@ public class ClientVoiture {
 	        if (os.contains("Windows"))
 	            Runtime.getRuntime().exec("cls");
 	        else
-	            Runtime.getRuntime().exec("clear");
+	        	System.out.print("\033[H\033[2J");
 	    }
 	    catch (final Exception e)
 	    {
