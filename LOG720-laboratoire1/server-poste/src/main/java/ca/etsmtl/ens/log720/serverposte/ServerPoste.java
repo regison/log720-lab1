@@ -44,8 +44,8 @@ public class ServerPoste {
 			org.omg.PortableServer.Servant servantBanqueDossiers = new BanqueDossiersImpl();
 			org.omg.PortableServer.Servant servantBanqueInfractions = new BanqueInfractionsImpl();
 			
-			org.omg.CORBA.Object banqueInfractions = poa.servant_to_reference(servantBanqueDossiers);
-			org.omg.CORBA.Object banqueDossiers = poa.servant_to_reference(servantBanqueInfractions);
+			org.omg.CORBA.Object banqueDossiers  = poa.servant_to_reference(servantBanqueDossiers);
+			org.omg.CORBA.Object banqueInfractions = poa.servant_to_reference(servantBanqueInfractions);
 			
 			NamingContextExt nc = NamingContextExtHelper.narrow(orb
 					.resolve_initial_references("NameService"));
