@@ -14,12 +14,8 @@ import ca.etsmtl.ens.log720.lab1.InfractionHelper;
  * @author charly
  *
  */
-public class CollectionInfractionImpl extends CollectionInfractionPOA implements Serializable{
+public class CollectionInfractionImpl extends CollectionInfractionPOA{
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -5782210045508528963L;
 	private ArrayList<InfractionImpl> _listeInfractions;
 
 	/**
@@ -61,7 +57,7 @@ public class CollectionInfractionImpl extends CollectionInfractionPOA implements
 		return this._listeInfractions.size();
 	}
 
-	public ArrayList<InfractionImpl> infractions() {
+	protected ArrayList<InfractionImpl> infractions() {
 		return this._listeInfractions;
 	}
 

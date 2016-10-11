@@ -11,12 +11,8 @@ import ca.etsmtl.ens.log720.lab1.InfractionPOA;
  * @author charly
  *
  */
-public class InfractionImpl extends InfractionPOA implements Serializable{
+public class InfractionImpl extends InfractionPOA {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -175799507713756969L;
 	private String description;
 	private int niveau;
 	private int id;

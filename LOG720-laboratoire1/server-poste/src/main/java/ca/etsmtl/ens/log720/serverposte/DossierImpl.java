@@ -12,12 +12,8 @@ import ca.etsmtl.ens.log720.lab1.DossierPOA;
  * @author charly
  *
  */
-public class DossierImpl extends DossierPOA implements Comparable<DossierImpl>, Serializable{
+public class DossierImpl extends DossierPOA implements Comparable<DossierImpl>{
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1863962315556881885L;
 	private int id;
 	private String nom;
 	private String prenom;

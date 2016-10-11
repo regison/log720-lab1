@@ -18,13 +18,8 @@ import ca.etsmtl.ens.log720.lab1.NoPermisExisteDejaException;
  * @modify by Regg
  *
  */
-public class BanqueDossiersImpl extends BanqueDossiersPOA implements Serializable{
+public class BanqueDossiersImpl extends BanqueDossiersPOA{
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -1168773267869815252L;
-	
 	
 	private CollectionDossiersImpl collectionDossiers;
 	/**
@@ -218,8 +213,23 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA implements Serializabl
 
 	}
 
-	public CollectionDossiersImpl getCollectionDossiers() {
-		return collectionDossiers;
+	public String toCSV() {
+		String csvObject = "";
+		//print Header
+		csvObject += "id,nom,prenom,noPermis,noPlaque,levelId,infractionsArray,reactionsArray" + "\n";
+		for (DossierImpl doss : this.collectionDossiers.dossiers()) {
+			csvObject 
+				+= doss.id() + "," 
+					+ doss.nom() + "," 
+					+ doss.prenom() + "," 
+					+ doss.noPermis() + "," 
+					+ doss.noPlaque() + "," 
+					+ doss.niveau() + "," 
+					+ doss.getListeInfraction() + "," 
+					+ doss.getListeReaction() + "\n";
+		}
+		
+		return csvObject;
 	}
 
 }

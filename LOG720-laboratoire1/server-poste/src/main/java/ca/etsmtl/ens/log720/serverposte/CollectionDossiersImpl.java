@@ -14,12 +14,8 @@ import ca.etsmtl.ens.log720.lab1.DossierHelper;
  * @author charly
  *
  */
-public class CollectionDossiersImpl extends CollectionDossierPOA implements Serializable{
+public class CollectionDossiersImpl extends CollectionDossierPOA {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 2015903828937541747L;
 	private ArrayList<DossierImpl> _listeDossiers;
 
 	/**
@@ -61,7 +57,7 @@ public class CollectionDossiersImpl extends CollectionDossierPOA implements Seri
 		return this._listeDossiers.size();
 	}
 	
-	public ArrayList<DossierImpl> dossiers(){
+	protected ArrayList<DossierImpl> dossiers(){
 		return this._listeDossiers;
 	}
 

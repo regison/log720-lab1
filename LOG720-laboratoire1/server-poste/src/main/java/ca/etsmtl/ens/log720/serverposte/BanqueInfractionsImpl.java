@@ -10,12 +10,8 @@ import ca.etsmtl.ens.log720.lab1.Infraction;
 import ca.etsmtl.ens.log720.lab1.InfractionHelper;
 import ca.etsmtl.ens.log720.lab1.NiveauHorsBornesException;
 
-public class BanqueInfractionsImpl extends BanqueInfractionsPOA implements Serializable{
+public class BanqueInfractionsImpl extends BanqueInfractionsPOA{
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3490019480328082024L;
 	private CollectionInfractionImpl _collectionInfractions;
 	
 
@@ -92,9 +88,20 @@ public class BanqueInfractionsImpl extends BanqueInfractionsPOA implements Seria
 		this._collectionInfractions.infractions().add(infraction);
 
 	}
-	
-	public CollectionInfractionImpl get_collectionInfractions() {
-		return _collectionInfractions;
+
+	protected String toCSV() {
+		String csvObject = "";
+		//print Header
+		csvObject += "id,description,niveau" + "\n";
+		for (InfractionImpl infr : this._collectionInfractions.infractions()) {
+			csvObject 
+				+= infr.id() + "," 
+					+ infr.description() + "," 
+					+ infr.niveau() + "\n";
+		}
+		
+		
+		return csvObject;
 	}
 
 }
