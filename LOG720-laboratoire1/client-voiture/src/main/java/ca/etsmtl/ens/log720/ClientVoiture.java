@@ -294,8 +294,7 @@ public class ClientVoiture {
 				}else{
 					System.out.println("Aucun dossier trouve dans la Banque d'infractions");
 				}
-				
-				sc.close();
+
 				System.out.println(m.subMenutoString());
 			}
 			});
@@ -330,7 +329,6 @@ public class ClientVoiture {
 					System.out.println("Aucun dossier trouve dans la Banque d'infractions");
 				}
 
-				sc.close();
 				System.out.println(m.subMenutoString());
 			}
 			});
@@ -356,8 +354,6 @@ public class ClientVoiture {
 				System.out.println("### " + d.id() + "###");
 				System.out.println(clientVoiture.toString(d));
 					
-				
-				sc.close();
 				System.out.println(m.subMenutoString());
 			}
 			});
@@ -384,8 +380,6 @@ public class ClientVoiture {
 				System.out.println("### " + d.id() + "###");
 				System.out.println(clientVoiture.toString(d));
 					
-				
-				sc.close();
 				System.out.println(m.subMenutoString());
 			}
 			});
@@ -460,9 +454,6 @@ public class ClientVoiture {
 				niveauGravite = tmpInt;
 
 					clientVoiture.ajouterReaction(description, niveauGravite);
-
-				
-				sc.close();
 				
 				System.out.println(m.subMenutoString());
 			}
@@ -504,8 +495,7 @@ public class ClientVoiture {
 				idReaction = tmpInt;
 				
 				clientVoiture.ajouterReactionAuDossierSelectionne(idReaction);
-				
-				sc.close();
+
 			}
 			});
 		
