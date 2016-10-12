@@ -3,7 +3,6 @@
  */
 package ca.etsmtl.ens.log720.serverposte;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import ca.etsmtl.ens.log720.lab1.DossierPOA;

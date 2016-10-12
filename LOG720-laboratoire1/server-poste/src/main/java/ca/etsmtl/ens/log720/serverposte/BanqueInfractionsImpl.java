@@ -1,7 +1,5 @@
 package ca.etsmtl.ens.log720.serverposte;
 
-import java.io.Serializable;
-
 import ca.etsmtl.ens.log720.lab1.BanqueInfractionsPOA;
 import ca.etsmtl.ens.log720.lab1.CollectionInfraction;
 import ca.etsmtl.ens.log720.lab1.CollectionInfractionHelper;

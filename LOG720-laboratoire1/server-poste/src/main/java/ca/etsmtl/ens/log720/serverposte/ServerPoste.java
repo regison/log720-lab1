@@ -8,7 +8,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 
 import org.omg.CORBA.ORB;
 import org.omg.CORBA.ORBPackage.InvalidName;
@@ -21,8 +20,6 @@ import org.omg.PortableServer.POAManagerPackage.AdapterInactive;
 import org.omg.PortableServer.POAPackage.ServantNotActive;
 import org.omg.PortableServer.POAPackage.WrongPolicy;
 
-import ca.etsmtl.ens.log720.lab1.BanqueReactionsHelper;
-import ca.etsmtl.ens.log720.lab1.InvalidIdException;
 import ca.etsmtl.ens.log720.lab1.NiveauHorsBornesException;
 import ca.etsmtl.ens.log720.lab1.NoPermisExisteDejaException;
 

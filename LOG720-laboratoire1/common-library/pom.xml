@@ -7,4 +7,5 @@
   </parent>
   <artifactId>common-library</artifactId>
   <groupId>ca.etsmtl.log720.lab1.librairies</groupId>
+  <version>0.0.2-SNAPSHOT</version>
 </project>
