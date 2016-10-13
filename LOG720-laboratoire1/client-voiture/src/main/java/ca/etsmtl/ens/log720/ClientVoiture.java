@@ -539,15 +539,16 @@ public class ClientVoiture {
 		Menu m = new Menu("Ajouter une reaction au dossier selectionne");
 		m.AddSubMenu(buildGoBackMenu());		
 		m.setAction(new Menu.ActionDelegate() {
+
 			public void doAction(Menu m) {
-				
+				int tryCount = 0;
 				String tmp;
 				int tmpInt = 0, idReaction;
 				boolean invalide = true;
 				
 				Scanner sc = Terminal.getInScanner();
 				System.out.println("Identifiant de la reaction ?");
-				while(invalide)
+				while(invalide || tryCount < 3)
 				{
 					if((tmp = sc.nextLine()) != "\n" )
 					{
@@ -560,15 +561,23 @@ public class ClientVoiture {
 							invalide = true;
 						}
 					}
-					else
+					else{
 						System.out.println("Entrée invalide");
+						tryCount++;
+					}
 				}
 				
 				idReaction = tmpInt;
-				
-				clientVoiture.ajouterReactionAuDossierSelectionne(idReaction);
+				Dossier d;
+				d = clientVoiture.getDossierSelectionne();
+				if(d != null){
+					clientVoiture.ajouterReactionAuDossierSelectionne(idReaction);
 
-				System.out.println("Votre reaction à ete ajouté au dossier selectione");
+					System.out.println("Votre reaction à ete ajouté au dossier selectione");
+				}else{
+					System.out.println("Aucun dossier selectionne");
+				}
+				System.out.println(m.subMenutoString());
 			}
 			});
 		
@@ -607,15 +616,16 @@ public class ClientVoiture {
 		Menu m = new Menu("Ajouter une infraction au dossier selectionne");
 		m.AddSubMenu(buildGoBackMenu());
 		m.setAction(new Menu.ActionDelegate() {
+
 			public void doAction(Menu m) {
-				
+				int tryCount = 0;
 				String tmp;
 				int tmpInt = 0, idInfraction;
 				boolean invalide = true;
 				
 				Scanner sc = Terminal.getInScanner();
 				System.out.println("Identifiant de l'infraction ?");
-				while(invalide)
+				while(invalide || tryCount  < 3)
 				{
 					if((tmp = sc.nextLine()) != "\n" )
 					{
@@ -628,15 +638,23 @@ public class ClientVoiture {
 							invalide = true;
 						}
 					}
-					else
+					else{
 						System.out.println("Entrée invalide");
+						tryCount++;
+					}
 				}
 				
 				idInfraction = tmpInt;
+				Dossier d;
+				d = clientVoiture.getDossierSelectionne();
+				if(d != null){
+					clientVoiture.ajouterInfractionAuDossierSelectionne(idInfraction);
+					
+					System.out.println("Votre infraction à ete ajouté au doossier selectionne");
+				}else{
+					System.out.println("Aucun dossier selectionne");
+				}
 				
-				clientVoiture.ajouterInfractionAuDossierSelectionne(idInfraction);
-				
-				System.out.println("Votre infraction à ete ajouté au doossier selectionne");
 				
 				System.out.println(m.subMenutoString());
 				
