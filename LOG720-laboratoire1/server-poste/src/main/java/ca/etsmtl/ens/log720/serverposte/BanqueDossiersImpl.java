@@ -11,6 +11,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.nio.file.CopyOption;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.Date;
 
 import ca.etsmtl.ens.log720.lab1.BanqueDossiersPOA;
@@ -60,14 +63,13 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA{
 				String[] strSplitted = line.split(",");
 				this.ajouterDossier(strSplitted[1], 
 						  strSplitted[2],
-						  strSplitted[3], 
-						  strSplitted[4]);
+						  strSplitted[4], 
+						  strSplitted[3]);
 				
 			}
 			
-			@SuppressWarnings("unused")
-			File backUpFile = new File(inputFile,inputFile.getName() + (new Date()));
-			
+			File backUpFile = new File(inputFile.getName() + "_" + (new Date()));
+			Files.copy(inputFilestream,backUpFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 			br.close();
 		} catch (FileNotFoundException e1) {
 			
@@ -86,7 +88,7 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA{
 							)
 					);
 		} catch (FileNotFoundException e) {
-			
+			e.printStackTrace();
 		}
 		
 	}
@@ -112,14 +114,15 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA{
 				}
 				
 			}
-			
-			@SuppressWarnings("unused")
-			File backUpFile = new File(inputFile,inputFile.getName() + (new Date()));
-			
 			br.close();
+			
+			File backUpFile = new File(inputFile.getName() + "_" + (new Date()));
+			Files.copy(inputFilestream,backUpFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+			
 		} catch (FileNotFoundException e1) {
 			
 		} catch (IOException e) {
+			
 		}
 		
 		
@@ -132,7 +135,7 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA{
 							)
 					);
 		} catch (FileNotFoundException e1) {
-			
+			e1.printStackTrace();
 		}
 		
 	}
@@ -158,15 +161,15 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA{
 				} catch (InvalidIdException e) {
 				}
 			}
-			
-			@SuppressWarnings("unused")
-			File backUpFile = new File(inputFile,inputFile.getName() + (new Date()));
-			
 			br.close();
+			
+			File backUpFile = new File(inputFile.getName() + "_" + (new Date()));
+			Files.copy(inputFilestream,backUpFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+			
 		} catch (FileNotFoundException e1) {
 			
 		} catch (IOException e) {
-
+			e.printStackTrace();
 		}
 		
 		
@@ -335,8 +338,10 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA{
 		//Verify if file already exists if not add it
 		if (!collectionDossiers.dossiers().contains(newDossier)){
 			collectionDossiers.dossiers().add(newDossier);
-			if(this.dossierOutPutFileStream != null)
-				this.dossierOutPutFileStream.println(newDossier);
+			if(this.dossierOutPutFileStream != null){
+				this.dossierOutPutFileStream.println(newDossier.toCSV());
+				this.dossierOutPutFileStream.flush();
+			}
 		}
 		else
 			throw new NoPermisExisteDejaException();
@@ -353,8 +358,10 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA{
 				
 				if (dossier != null){
 					dossier.ajouterInfractionAListe(idInfraction);
-					if(this.dossierInfractionsoutPutFileStream != null)
+					if(this.dossierInfractionsoutPutFileStream != null){
 						this.dossierInfractionsoutPutFileStream.println("" + idDossier + "," + idInfraction + "\n");
+						this.dossierInfractionsoutPutFileStream.flush();
+					}
 				}
 			}
 			else
@@ -371,25 +378,14 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA{
 			
 			if (dossier != null){
 				dossier.ajouterReactionAListe(idReaction);	
-				if(this.dossierReactionoutPutFileStream != null)
+				if(this.dossierReactionoutPutFileStream != null){
 					this.dossierReactionoutPutFileStream.println("" + idDossier + "," + idReaction + "\n");
+					this.dossierReactionoutPutFileStream.flush();
+				}
 			}
 		}
 		else
 			throw new InvalidIdException();
 
 	}
-
-	public String toCSV() {
-		String csvObject = "";
-		//print Header
-		csvObject += "id,nom,prenom,noPermis,noPlaque,levelId,infractionsArray,reactionsArray" + "\n";
-		for (DossierImpl doss : this.collectionDossiers.dossiers()) {
-			csvObject 
-				+= doss.toCSV() + "\n";
-		}
-		
-		return csvObject;
-	}
-
 }

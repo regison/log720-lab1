@@ -8,6 +8,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.Date;
 
 import ca.etsmtl.ens.log720.lab1.BanqueInfractionsPOA;
@@ -52,11 +54,11 @@ public class BanqueInfractionsImpl extends BanqueInfractionsPOA{
 				} catch (NiveauHorsBornesException e) {
 				}
 			}
-			
-			@SuppressWarnings("unused")
-			File backUpFile = new File(inputFile,inputFile.getName() + (new Date()));
-		
 			br.close();
+			
+			File backUpFile = new File(inputFile.getName() + "_" + (new Date()));
+			Files.copy(inputFilestream,backUpFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+			
 		} catch (FileNotFoundException e1) {
 			
 		} catch (IOException e) {}
@@ -141,8 +143,10 @@ public class BanqueInfractionsImpl extends BanqueInfractionsPOA{
 		int newId = _collectionInfractions.size();
 		InfractionImpl infraction = new InfractionImpl(newId, description, niveau);
 		this._collectionInfractions.infractions().add(infraction);
-		if(this.infractionsoutPutFileStream != null)
+		if(this.infractionsoutPutFileStream != null){
 			this.infractionsoutPutFileStream.println(infraction.toCSV());
+			this.infractionsoutPutFileStream.flush();
+		}
 
 	}
 

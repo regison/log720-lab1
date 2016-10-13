@@ -96,10 +96,10 @@ public class ServerPoste {
 		org.omg.CORBA.ORB orb = org.omg.CORBA.ORB.init(args, null);
 		try {
 			
-			String dossierFilePathData = "dossierFilePathData.csv" ;
-			String dossier__InfractionsFilePathData = "dossierFilePathData.csv" ;
-			String dossier__ReactionsFilePathData = "dossierFilePathData.csv" ;
-			String infractionFilePathData = "dossierFilePathData.csv" ;
+			String dossierFilePathData = "dossiers.csv" ;
+			String dossier__InfractionsFilePathData = "dossiers__infractions.csv" ;
+			String dossier__ReactionsFilePathData = "dossiers__reactions.csv" ;
+			String infractionFilePathData = "infractions.csv" ;
 				
 			serverposte = new ServerPoste(orb, dossierFilePathData, dossier__InfractionsFilePathData,dossier__ReactionsFilePathData,infractionFilePathData);
 			

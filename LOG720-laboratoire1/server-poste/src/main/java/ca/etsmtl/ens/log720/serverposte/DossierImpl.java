@@ -12,7 +12,7 @@ import ca.etsmtl.ens.log720.lab1.Infraction;
  * @author charly
  *
  */
-public class DossierImpl extends DossierPOA implements Comparable<DossierImpl>{
+public class DossierImpl extends DossierPOA{
 
 	private int id;
 	private String nom;
@@ -37,7 +37,7 @@ public class DossierImpl extends DossierPOA implements Comparable<DossierImpl>{
 		this.prenom = prenom;
 		this.noPermis = noPermis;
 		this.noPlaque = noPlaque;
-		
+		this.levelId = 0;
 		infractionsArray = new ArrayList<Integer>();
 		reactionsArray = new ArrayList<Integer>();
 	}
@@ -144,8 +144,15 @@ public class DossierImpl extends DossierPOA implements Comparable<DossierImpl>{
 		return "";
 	}
 
-	public int compareTo(DossierImpl o) {
-		return this.noPermis.compareTo(o.noPermis);
+	@Override
+	public boolean equals(Object o) {
+		
+		if(o.getClass() != DossierImpl.class)
+		 return false;
+		
+		DossierImpl dossiero = (DossierImpl) o;
+		
+		return this.noPermis == dossiero.noPermis;
 	}
 
 	public String toCSV() {
@@ -153,10 +160,7 @@ public class DossierImpl extends DossierPOA implements Comparable<DossierImpl>{
 				+ this.nom() + "," 
 				+ this.prenom() + "," 
 				+ this.noPermis() + "," 
-				+ this.noPlaque() + "," 
-				+ this.niveau() + "," 
-				+ this.getListeInfraction() + "," 
-				+ this.getListeReaction();
+				+ this.noPlaque();
 	}
 
 }
