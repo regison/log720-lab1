@@ -132,8 +132,14 @@ public class ServerPoste {
 						try{
 							String[] strSplitted = str.split(",");
 							int dossierId = Integer.parseInt(strSplitted[0]);
-							this.servantBanqueDossiers.ajouterDossier(strSplitted[1], strSplitted[2],strSplitted[3], strSplitted[4]);
-							
+							if (verifierUnicitePermis(dossierId)){
+								this.servantBanqueDossiers.ajouterDossier(strSplitted[1], 
+																		  strSplitted[2],
+																		  strSplitted[3], 
+																		  strSplitted[4]);
+							}else{
+								System.out.println("Un dossier ayant ce numero existe deja veuillez recommencer");
+							}
 							//TODO add infractions id to dossier from strSplitted[5]
 							//this.servantBanqueDossiers.ajouterInfractionAuDossier(dossierId, 0);
 							//TODO add reactions id to dossier from strSplitted[6]
@@ -159,6 +165,10 @@ public class ServerPoste {
 
 	public org.omg.PortableServer.POA getPoa() {
 		return poa;
+	}
+	
+	public Boolean verifierUnicitePermis(Integer permis){		
+		return servantBanqueDossiers.dossiers().getDossier(permis) != null;
 	}
 	
 	public void exportBanqueDossierToCSV(String csvBanqueDossiersFileName){

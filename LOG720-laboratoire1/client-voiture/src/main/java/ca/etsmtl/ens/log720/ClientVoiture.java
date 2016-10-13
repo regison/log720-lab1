@@ -170,6 +170,20 @@ public class ClientVoiture {
 		dString += "Numero Permis: \"" + d.noPermis() + "\"\n";
 		dString += "Numero Plaque: \"" + d.noPlaque() + "\"\n";
 		dString += "Niveau Severite: \"" + d.niveau() + "\"";
+		if (reactions().size() > 0){
+			dString += "\n\nListe des reactions: \n";
+			for(int i=0; i<reactions().size(); i++){
+				Reaction r  = reactions().getReaction(i);
+				dString += "\t"+ toString(r);				
+			}
+		}
+		if (infractions().size() > 0){
+			dString += "\n\nListe des infractions: \n";
+			for(int i=0; i<infractions().size(); i++){
+				Infraction infration  = infractions().getInfraction(i);
+				dString += "\t" +toString(infration);				
+			}
+		}
 		
 		return dString;
 	}
