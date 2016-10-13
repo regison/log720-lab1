@@ -8,7 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.time.ZonedDateTime;
+import java.util.Date;
 
 import ca.etsmtl.ens.log720.lab1.BanqueInfractionsPOA;
 import ca.etsmtl.ens.log720.lab1.CollectionInfraction;
@@ -54,7 +54,7 @@ public class BanqueInfractionsImpl extends BanqueInfractionsPOA{
 			}
 			
 			@SuppressWarnings("unused")
-			File backUpFile = new File(inputFile,inputFile.getName() + ZonedDateTime.now());
+			File backUpFile = new File(inputFile,inputFile.getName() + (new Date()));
 		
 			br.close();
 		} catch (FileNotFoundException e1) {

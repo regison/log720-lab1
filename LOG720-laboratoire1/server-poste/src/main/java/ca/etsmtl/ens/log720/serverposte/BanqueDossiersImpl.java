@@ -11,7 +11,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.time.ZonedDateTime;
+import java.util.Date;
 
 import ca.etsmtl.ens.log720.lab1.BanqueDossiersPOA;
 import ca.etsmtl.ens.log720.lab1.CollectionDossier;
@@ -66,7 +66,7 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA{
 			}
 			
 			@SuppressWarnings("unused")
-			File backUpFile = new File(inputFile,inputFile.getName() + ZonedDateTime.now());
+			File backUpFile = new File(inputFile,inputFile.getName() + (new Date()));
 			
 			br.close();
 		} catch (FileNotFoundException e1) {
@@ -114,7 +114,7 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA{
 			}
 			
 			@SuppressWarnings("unused")
-			File backUpFile = new File(inputFile,inputFile.getName() + ZonedDateTime.now());
+			File backUpFile = new File(inputFile,inputFile.getName() + (new Date()));
 			
 			br.close();
 		} catch (FileNotFoundException e1) {
@@ -160,7 +160,7 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA{
 			}
 			
 			@SuppressWarnings("unused")
-			File backUpFile = new File(inputFile,inputFile.getName() + ZonedDateTime.now());
+			File backUpFile = new File(inputFile,inputFile.getName() + (new Date()));
 			
 			br.close();
 		} catch (FileNotFoundException e1) {
