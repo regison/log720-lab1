@@ -70,6 +70,7 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA{
 			
 			File backUpFile = new File(inputFile.getName() + "_" + (new Date()));
 			Files.copy(inputFilestream,backUpFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+			
 			br.close();
 		} catch (FileNotFoundException e1) {
 			
@@ -114,11 +115,11 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA{
 				}
 				
 			}
-			br.close();
+			
 			
 			File backUpFile = new File(inputFile.getName() + "_" + (new Date()));
 			Files.copy(inputFilestream,backUpFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-			
+			br.close();
 		} catch (FileNotFoundException e1) {
 			
 		} catch (IOException e) {
@@ -161,11 +162,11 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA{
 				} catch (InvalidIdException e) {
 				}
 			}
-			br.close();
+			
 			
 			File backUpFile = new File(inputFile.getName() + "_" + (new Date()));
 			Files.copy(inputFilestream,backUpFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-			
+			br.close();
 		} catch (FileNotFoundException e1) {
 			
 		} catch (IOException e) {

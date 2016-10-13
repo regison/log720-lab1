@@ -54,11 +54,11 @@ public class BanqueInfractionsImpl extends BanqueInfractionsPOA{
 				} catch (NiveauHorsBornesException e) {
 				}
 			}
-			br.close();
+			
 			
 			File backUpFile = new File(inputFile.getName() + "_" + (new Date()));
 			Files.copy(inputFilestream,backUpFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-			
+			br.close();
 		} catch (FileNotFoundException e1) {
 			
 		} catch (IOException e) {}
