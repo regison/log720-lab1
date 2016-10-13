@@ -559,6 +559,7 @@ public class ClientVoiture {
 							invalide = false;
 						}
 						catch(NumberFormatException nfEx){
+							System.out.println("Entrée invalide");
 							invalide = true;
 						}
 					}
@@ -576,7 +577,7 @@ public class ClientVoiture {
 						clientVoiture.ajouterReactionAuDossierSelectionne(idReaction);
 						System.out.println("Votre reaction à ete ajouté au dossier selectione");
 					} catch (InvalidIdException e) {
-						System.out.println("Aucun dossier selectionne");
+						System.out.println("Impossible d'ajouter la reaction");
 					}
 
 					
@@ -641,6 +642,7 @@ public class ClientVoiture {
 							invalide = false;
 						}
 						catch(NumberFormatException nfEx){
+							System.out.println("Entrée invalide");
 							invalide = true;
 						}
 					}
@@ -650,6 +652,7 @@ public class ClientVoiture {
 					}
 				}
 				
+				
 				idInfraction = tmpInt;
 				Dossier d;
 				d = clientVoiture.getDossierSelectionne();
@@ -658,7 +661,7 @@ public class ClientVoiture {
 						clientVoiture.ajouterInfractionAuDossierSelectionne(idInfraction);
 						System.out.println("Votre infraction à ete ajouté au doossier selectionne");
 					} catch (InvalidIdException e) {
-						System.out.println("Aucun dossier selectionne");
+						System.out.println("Impossible d'ajoute l'infraction");
 					}
 					
 					

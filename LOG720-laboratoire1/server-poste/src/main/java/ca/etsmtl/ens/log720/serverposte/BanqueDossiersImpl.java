@@ -357,16 +357,13 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA{
 	 * @see ca.etsmtl.ens.log720.lab1.BanqueDossiersOperations#ajouterInfractionAuDossier(int, int)
 	 */
 	public void ajouterInfractionAuDossier(int idDossier, int idInfraction) throws InvalidIdException {
-		
-			if (idDossier != 0 &&  idInfraction != 0){
-				Dossier dossier = trouverDossierParId(idDossier);
-				
-				if (dossier != null){
-					dossier.ajouterInfractionAListe(idInfraction);
-					if(this.dossierInfractionsoutPutFileStream != null){
-						this.dossierInfractionsoutPutFileStream.println("" + idDossier + "," + idInfraction + "\n");
-						this.dossierInfractionsoutPutFileStream.flush();
-					}
+			Dossier dossier = trouverDossierParId(idDossier);
+			
+			if (dossier != null){
+				dossier.ajouterInfractionAListe(idInfraction);
+				if(this.dossierInfractionsoutPutFileStream != null){
+					this.dossierInfractionsoutPutFileStream.println("" + idDossier + "," + idInfraction + "\n");
+					this.dossierInfractionsoutPutFileStream.flush();
 				}
 			}
 			else
@@ -378,15 +375,13 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA{
 	 */
 	public void ajouterReactionAuDossier(int idDossier, int idReaction) throws InvalidIdException {
 
-		if (idDossier != 0 &&  idReaction != 0){
-			Dossier dossier = trouverDossierParId(idDossier);
-			
-			if (dossier != null){
-				dossier.ajouterReactionAListe(idReaction);	
-				if(this.dossierReactionoutPutFileStream != null){
-					this.dossierReactionoutPutFileStream.println("" + idDossier + "," + idReaction + "\n");
-					this.dossierReactionoutPutFileStream.flush();
-				}
+		Dossier dossier = trouverDossierParId(idDossier);
+		
+		if (dossier != null){
+			dossier.ajouterReactionAListe(idReaction);	
+			if(this.dossierReactionoutPutFileStream != null){
+				this.dossierReactionoutPutFileStream.println("" + idDossier + "," + idReaction + "\n");
+				this.dossierReactionoutPutFileStream.flush();
 			}
 		}
 		else
