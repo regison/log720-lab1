@@ -147,7 +147,7 @@ public class DossierImpl extends DossierPOA{
 	@Override
 	public boolean equals(Object o) {
 		
-		if(o.getClass() != DossierImpl.class)
+		if(o instanceof DossierImpl)
 		 return false;
 		
 		DossierImpl dossiero = (DossierImpl) o;
