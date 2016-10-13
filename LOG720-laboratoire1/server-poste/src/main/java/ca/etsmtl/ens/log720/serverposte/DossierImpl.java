@@ -152,7 +152,7 @@ public class DossierImpl extends DossierPOA{
 		
 		DossierImpl dossiero = (DossierImpl) o;
 		
-		return this.noPermis == dossiero.noPermis;
+		return this.noPermis.equalsIgnoreCase(dossiero.noPermis);
 	}
 
 	public String toCSV() {

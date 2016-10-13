@@ -78,7 +78,7 @@ public class ClientPoste {
 		banqueInfractions = BanqueInfractionsHelper.narrow(nc.resolve(name));
 	}
 	
-	protected void ajouterDossier(String nom, String prenom, String numPlaque, String numPermis) throws NoPermisExisteDejaException {
+	protected void ajouterDossier(String nom, String prenom, String numPlaque, String numPermis) throws NoPermisExisteDejaException{
 		
 		// Ajout d'un dossier
 		banqueDossiers.ajouterDossier(nom, prenom, numPermis, numPlaque);
@@ -209,12 +209,12 @@ public class ClientPoste {
 				
 				try {
 					clientposte.ajouterDossier(nom, prenom, numPlaque, numPermis);
+					System.out.println("Votre dossier à ete ajouté");
 				} catch (NoPermisExisteDejaException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					System.out.println("Le numero de permis existe deja.");
 				}
 				
-				System.out.println("Votre dossier à ete ajouté");
+				
 				System.out.println(m.subMenutoString());
 			}
 			});
