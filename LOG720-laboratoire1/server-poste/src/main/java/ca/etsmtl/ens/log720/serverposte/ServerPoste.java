@@ -39,9 +39,9 @@ public class ServerPoste {
 		poa.the_POAManager().activate();
 		
 		try {
-
-			servantBanqueDossiers = new BanqueDossiersImpl(dossierFilePathData,dossier__InfractionsFilePathData,dossier__ReactionsFilePathData);
 			servantBanqueInfractions = new BanqueInfractionsImpl(infractionFilePathData);
+			servantBanqueDossiers = new BanqueDossiersImpl(dossierFilePathData,dossier__InfractionsFilePathData,dossier__ReactionsFilePathData);
+			
 			
 			org.omg.CORBA.Object banqueDossiers  = poa.servant_to_reference(servantBanqueDossiers);
 			org.omg.CORBA.Object banqueInfractions = poa.servant_to_reference(servantBanqueInfractions);
