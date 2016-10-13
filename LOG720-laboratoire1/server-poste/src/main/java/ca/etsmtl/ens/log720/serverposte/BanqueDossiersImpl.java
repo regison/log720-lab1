@@ -54,6 +54,11 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA{
 	private void loadDossierFromFile(String dossierFilePathData) {
 		try {
 			File inputFile = new File(dossierFilePathData);
+			
+			File backUpFile = new File("BackUps" + File.separator + inputFile.getName() + "_" + (new Date()));
+			backUpFile.getParentFile().mkdirs();
+			Files.copy(inputFile.toPath(),backUpFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+			
 			FileInputStream inputFilestream = new FileInputStream(inputFile);
 			InputStreamReader isr = new InputStreamReader(inputFilestream);
 			BufferedReader br = new BufferedReader(isr);
@@ -67,10 +72,7 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA{
 						  strSplitted[3]);
 				
 			}
-			
-			File backUpFile = new File(inputFile.getName() + "_" + (new Date()));
-			Files.copy(inputFilestream,backUpFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-			
+
 			br.close();
 		} catch (FileNotFoundException e1) {
 			
@@ -83,9 +85,7 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA{
 		try {
 			dossierOutPutFileStream = new PrintWriter(
 					new FileOutputStream(
-							new File(
-									dossierFilePathData
-									)
+							new File(dossierFilePathData),true
 							)
 					);
 		} catch (FileNotFoundException e) {
@@ -97,6 +97,11 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA{
 	private void loadDossier__InfractionFromFile(String dossier__InfractionFilePathData) {
 		try {
 			File inputFile = new File(dossier__InfractionFilePathData);
+			
+			File backUpFile = new File("BackUps" + File.separator + inputFile.getName() + "_" + (new Date()));
+			backUpFile.getParentFile().mkdirs();
+			Files.copy(inputFile.toPath(),backUpFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+			
 			FileInputStream inputFilestream = new FileInputStream(inputFile);
 			InputStreamReader isr = new InputStreamReader(inputFilestream);
 			BufferedReader br = new BufferedReader(isr);
@@ -115,10 +120,7 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA{
 				}
 				
 			}
-			
-			
-			File backUpFile = new File(inputFile.getName() + "_" + (new Date()));
-			Files.copy(inputFilestream,backUpFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
 			br.close();
 		} catch (FileNotFoundException e1) {
 			
@@ -132,7 +134,7 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA{
 					new FileOutputStream(
 							new File(
 									dossier__InfractionFilePathData
-									)
+									),true
 							)
 					);
 		} catch (FileNotFoundException e1) {
@@ -144,6 +146,11 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA{
 	private void loadDossier__ReactionFromFile(String dossier__ReactionFilePathData) {
 		try {
 			File inputFile = new File(dossier__ReactionFilePathData);
+			
+			File backUpFile = new File("BackUps" + File.separator + inputFile.getName() + "_" + (new Date()));
+			backUpFile.getParentFile().mkdirs();
+			Files.copy(inputFile.toPath(),backUpFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+			
 			FileInputStream inputFilestream = new FileInputStream(inputFile);
 			InputStreamReader isr = new InputStreamReader(inputFilestream);
 			BufferedReader br = new BufferedReader(isr);
@@ -163,9 +170,6 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA{
 				}
 			}
 			
-			
-			File backUpFile = new File(inputFile.getName() + "_" + (new Date()));
-			Files.copy(inputFilestream,backUpFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 			br.close();
 		} catch (FileNotFoundException e1) {
 			
@@ -179,7 +183,7 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA{
 					new FileOutputStream(
 							new File(
 									dossier__ReactionFilePathData
-									)
+									),true
 							)
 					);
 		} catch (FileNotFoundException e) {

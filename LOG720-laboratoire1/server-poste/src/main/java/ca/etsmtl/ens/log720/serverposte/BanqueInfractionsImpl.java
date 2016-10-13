@@ -40,6 +40,11 @@ public class BanqueInfractionsImpl extends BanqueInfractionsPOA{
 	private void loadInfractionFromFile(String infractionsFilePathData) {
 		try {
 			File inputFile = new File(infractionsFilePathData);
+			
+			File backUpFile = new File("BackUps" + File.separator + inputFile.getName() + "_" + (new Date()));
+			backUpFile.getParentFile().mkdirs();
+			Files.copy(inputFile.toPath(),backUpFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+			
 			FileInputStream inputFilestream = new FileInputStream(inputFile);
 			InputStreamReader isr = new InputStreamReader(inputFilestream);
 			BufferedReader br = new BufferedReader(isr);
@@ -52,13 +57,13 @@ public class BanqueInfractionsImpl extends BanqueInfractionsPOA{
 					
 				} catch(NumberFormatException nfex){
 				} catch (NiveauHorsBornesException e) {
+				}catch (ArrayIndexOutOfBoundsException aioob) {
 				}
 			}
 			
-			
-			File backUpFile = new File(inputFile.getName() + "_" + (new Date()));
-			Files.copy(inputFilestream,backUpFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 			br.close();
+			
+			
 		} catch (FileNotFoundException e1) {
 			
 		} catch (IOException e) {}
@@ -66,10 +71,7 @@ public class BanqueInfractionsImpl extends BanqueInfractionsPOA{
 		try {
 			infractionsoutPutFileStream = new PrintWriter(
 					new FileOutputStream(
-							new File(
-									infractionsFilePathData
-									)
-							)
+							new File(infractionsFilePathData),true)
 					);
 		} catch (FileNotFoundException e) {
 			
