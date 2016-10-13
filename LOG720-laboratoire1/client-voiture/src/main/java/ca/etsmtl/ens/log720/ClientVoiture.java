@@ -184,10 +184,10 @@ public class ClientVoiture {
 		}
 		int[] dossierInfraction = d.getListeInfraction();
 		if (dossierInfraction.length > 0){
-			dString += "\n\n- Liste des infractions: \n";
+			dString += "\n\n- Liste des infractions:";
 			for(int idInfraction : dossierInfraction){
 				Infraction i  = banqueInfractions.trouverInfractionParId(idInfraction);
-				dString += "\t"+ toString(i);				
+				dString += "\t"+  "- Description: \"" + i.description() + "\" / Niveau Severite: \"" + i.niveau() + "\"";				
 			}
 		}
 		
@@ -315,13 +315,13 @@ public class ClientVoiture {
 					System.out.println("Voici les resultats de la recherche");
 					for (int i = 0; i < dossiers.size(); ++i) {
 						Dossier d = dossiers.getDossier(i);
-						System.out.println("### " + d.id() + "###");
-						System.out.println(clientVoiture.toString(d));
+						System.out.println("### " + d.id() + " ###");
+						System.out.println(clientVoiture.toString(d)+ "\n");
 					}
 					System.out.println("-- Fin de la liste --");
 				}else{
 					m.RemoveSubMenu(buildMenuSelectionnerDossier());
-					System.out.println("Aucun dossier trouve dans la Banque d'infractions");
+					System.out.println("Aucun dossier trouve dans la Banque de dossier");
 				}
 
 				System.out.println(m.subMenutoString());
@@ -354,8 +354,8 @@ public class ClientVoiture {
 					System.out.println("Voici les resultats de la recherche");
 					for (int i = 0; i < dossiers.size(); ++i) {
 						Dossier d = dossiers.getDossier(i);
-						System.out.println("### " + d.id() + "###");
-						System.out.println(clientVoiture.toString(d));
+						System.out.println("### " + d.id() + " ###");
+						System.out.println(clientVoiture.toString(d)+"\n");
 					}
 					System.out.println("-- Fin de la liste --");
 				}else{
@@ -388,12 +388,12 @@ public class ClientVoiture {
 				{
 					m.AddSubMenu(buildMenuSelectionnerDossier());
 					System.out.println("Voici le dossier trouve");
-					System.out.println("### " + d.id() + "###");
+					System.out.println("### " + d.id() + " ###");
 					System.out.println(clientVoiture.toString(d));
 				}else
 				{
 					m.RemoveSubMenu(buildMenuSelectionnerDossier());
-					System.out.println("Aucun dossier trouve");
+					System.out.println("Aucun dossier trouve dans la Banque de dossier");
 				}
 				System.out.println(m.subMenutoString());
 			}
@@ -409,10 +409,10 @@ public class ClientVoiture {
 		goBack.setAction(new Menu.ActionDelegate() {
 			
 			public void doAction(Menu m) {
-				term.navigateTo(m.getParentMenu().getParentMenu());
+				term.navigateTo(m.getParentMenu().getParentMenu().getParentMenu());
 			}
 		});
-		m.AddSubMenu(buildGoBackMenu());
+		m.AddSubMenu(goBack);
 		m.setAction(new Menu.ActionDelegate() {
 			public void doAction(Menu m) {
 				String tmp, numPermis;
@@ -425,8 +425,8 @@ public class ClientVoiture {
 				Dossier d;
 				d = clientVoiture.selectionnerDossier(numPermis);
 				if(d != null){
-					System.out.println("### " + d.id() + "###");
-					System.out.println(clientVoiture.toString(d));
+					System.out.println("### " + d.id() + " ###");
+					System.out.println(clientVoiture.toString(d)+"\n");
 				}
 				else{
 					System.out.println("Le dossier est inexistant.");
@@ -448,8 +448,8 @@ public class ClientVoiture {
 				Dossier d;
 				d = clientVoiture.getDossierSelectionne();
 				if(d != null){
-					System.out.println("### " + d.id() + "###");
-					System.out.println(clientVoiture.toString(d));
+					System.out.println("### " + d.id() + " ###");
+					System.out.println(clientVoiture.toString(d)+"\n");
 				}else{
 					System.out.println("Aucun dossier selectionne");
 				}

@@ -118,7 +118,7 @@ public class ClientPoste {
 			dString += "\n\n- Liste des infractions: \n";
 			for(int idInfraction : dossierInfraction){
 				Infraction i  = banqueInfractions.trouverInfractionParId(idInfraction);
-				dString += "\t"+ toString(i);				
+				dString += "\t"+  "- Description: \"" + i.description() + "\" / Niveau Severite: \"" + i.niveau() + "\"";				
 			}
 		}
 		return dString;
@@ -285,8 +285,8 @@ public class ClientPoste {
 					System.out.println("Voici la liste des dossiers:");
 					for (int i = 0; i < dossiers.size(); ++i) {
 						Dossier d = dossiers.getDossier(i);
-						System.out.println("### " + d.id() + "###");
-						System.out.println(clientposte.toString(d));
+						System.out.println("### " + d.id() + " ###");
+						System.out.println(clientposte.toString(d) + "\n");
 					}
 					System.out.println("--Fin de la liste --");
 				}else{

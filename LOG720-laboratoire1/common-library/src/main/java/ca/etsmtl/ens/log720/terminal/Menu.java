@@ -42,7 +42,8 @@ public class Menu implements Iterable<Menu>{
 	}
 
 	public void AddSubMenu(Menu menu){
-		this.subMenus.add(menu);	
+		if(!this.subMenus.contains(menu))
+			this.subMenus.add(menu);	
 		menu.parentMenu = this;
 	}
 	

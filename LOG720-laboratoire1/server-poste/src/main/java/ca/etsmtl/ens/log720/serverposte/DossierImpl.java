@@ -112,8 +112,7 @@ public class DossierImpl extends DossierPOA{
 	 * @see ca.etsmtl.ens.log720.lab1.DossierOperations#ajouterReactionAListe(int)
 	 */
 	public void ajouterReactionAListe(int idReaction) {
-		if (idReaction != 0 
-				&& !reactionsArray.contains(idReaction)){
+		if (!reactionsArray.contains(idReaction)){
 			this.reactionsArray.add(idReaction);
 		}
 
@@ -123,8 +122,7 @@ public class DossierImpl extends DossierPOA{
 	 * @see ca.etsmtl.ens.log720.lab1.DossierOperations#ajouterInfractionAListe(int)
 	 */
 	public void ajouterInfractionAListe(int idInfraction) {
-		if (idInfraction !=0
-				&& !infractionsArray.contains(idInfraction)){
+		if (!infractionsArray.contains(idInfraction)){
 			
 			
 			//TODO recuperer le niveau de l'infraction afin de l'associer au dossier
