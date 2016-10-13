@@ -548,7 +548,7 @@ public class ClientVoiture {
 				
 				Scanner sc = Terminal.getInScanner();
 				System.out.println("Identifiant de la reaction ?");
-				while(invalide || tryCount < 3)
+				while(invalide && tryCount < 3)
 				{
 					if((tmp = sc.nextLine()) != "\n" )
 					{
@@ -625,7 +625,7 @@ public class ClientVoiture {
 				
 				Scanner sc = Terminal.getInScanner();
 				System.out.println("Identifiant de l'infraction ?");
-				while(invalide || tryCount  < 3)
+				while(invalide && tryCount  < 3)
 				{
 					if((tmp = sc.nextLine()) != "\n" )
 					{
