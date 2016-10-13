@@ -28,6 +28,7 @@ import ca.etsmtl.ens.log720.lab1.CollectionInfraction;
 import ca.etsmtl.ens.log720.lab1.CollectionReaction;
 import ca.etsmtl.ens.log720.lab1.Dossier;
 import ca.etsmtl.ens.log720.lab1.Infraction;
+import ca.etsmtl.ens.log720.lab1.InvalidIdException;
 import ca.etsmtl.ens.log720.lab1.Reaction;
 import ca.etsmtl.ens.log720.terminal.Menu;
 import ca.etsmtl.ens.log720.terminal.Terminal;
@@ -154,12 +155,12 @@ public class ClientVoiture {
 		banqueReactions.ajouterReaction(description, niveauGravite);
 	}
 	
-	protected void ajouterReactionAuDossierSelectionne(int idReaction) {
-		this.dossierCourant.ajouterReactionAListe(idReaction);
+	protected void ajouterReactionAuDossierSelectionne(int idReaction) throws InvalidIdException {
+		this.banqueDossier.ajouterInfractionAuDossier(this.dossierCourant.id(), idReaction);	
 	}
 	
-	protected void ajouterInfractionAuDossierSelectionne(int idInfraction) {
-		this.dossierCourant.ajouterInfractionAListe(idInfraction);		
+	protected void ajouterInfractionAuDossierSelectionne(int idInfraction) throws InvalidIdException {
+		this.banqueDossier.ajouterInfractionAuDossier(this.dossierCourant.id(), idInfraction);		
 	}
 	
 	protected CollectionInfraction infractions(){
@@ -571,9 +572,14 @@ public class ClientVoiture {
 				Dossier d;
 				d = clientVoiture.getDossierSelectionne();
 				if(d != null){
-					clientVoiture.ajouterReactionAuDossierSelectionne(idReaction);
+					try {
+						clientVoiture.ajouterReactionAuDossierSelectionne(idReaction);
+						System.out.println("Votre reaction à ete ajouté au dossier selectione");
+					} catch (InvalidIdException e) {
+						System.out.println("Aucun dossier selectionne");
+					}
 
-					System.out.println("Votre reaction à ete ajouté au dossier selectione");
+					
 				}else{
 					System.out.println("Aucun dossier selectionne");
 				}
@@ -648,9 +654,14 @@ public class ClientVoiture {
 				Dossier d;
 				d = clientVoiture.getDossierSelectionne();
 				if(d != null){
-					clientVoiture.ajouterInfractionAuDossierSelectionne(idInfraction);
+					try {
+						clientVoiture.ajouterInfractionAuDossierSelectionne(idInfraction);
+						System.out.println("Votre infraction à ete ajouté au doossier selectionne");
+					} catch (InvalidIdException e) {
+						System.out.println("Aucun dossier selectionne");
+					}
 					
-					System.out.println("Votre infraction à ete ajouté au doossier selectionne");
+					
 				}else{
 					System.out.println("Aucun dossier selectionne");
 				}
