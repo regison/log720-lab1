@@ -76,5 +76,21 @@ public class Menu implements Iterable<Menu>{
 			this.action.doAction(this);
 		}
 	}
+	public void RemoveSubMenu(Menu subMenu) {
+		if(this.subMenus.contains(subMenu))	
+		{
+			this.subMenus.remove(subMenu);
+		}
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(!(obj instanceof Menu))
+			return false;
+		
+		Menu oMenu = (Menu)obj;
+		
+		return this.name.equalsIgnoreCase(oMenu.name);
+	}
 	
 }

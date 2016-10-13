@@ -291,7 +291,6 @@ public class ClientVoiture {
 	private static Menu buildMenuRechercherDossierParNomEtPrenom() {
 		Menu m = new Menu("Rechercher un dossier par le nom et le prenom");
 		m.AddSubMenu(buildGoBackMenu());
-		m.AddSubMenu(buildMenuSelectionnerDossier());
 		m.setAction(new Menu.ActionDelegate() {
 			public void doAction(Menu m) {
 				clearConsole();
@@ -311,6 +310,8 @@ public class ClientVoiture {
 				dossiers = clientVoiture.trouverDossierParNom(nom, prenom);
 				if(dossiers.size() > 0)
 				{
+					m.AddSubMenu(buildMenuSelectionnerDossier());
+					
 					System.out.println("Voici les resultats de la recherche");
 					for (int i = 0; i < dossiers.size(); ++i) {
 						Dossier d = dossiers.getDossier(i);
@@ -319,6 +320,7 @@ public class ClientVoiture {
 					}
 					System.out.println("-- Fin de la liste --");
 				}else{
+					m.RemoveSubMenu(buildMenuSelectionnerDossier());
 					System.out.println("Aucun dossier trouve dans la Banque d'infractions");
 				}
 
@@ -332,7 +334,6 @@ public class ClientVoiture {
 	private static Menu buildMenuRechercherDossierParNumPlaque() {
 		Menu m = new Menu("Rechercher un dossier par le numero de plaque");
 		m.AddSubMenu(buildGoBackMenu());
-		m.AddSubMenu(buildMenuSelectionnerDossier());
 		m.setAction(new Menu.ActionDelegate() {
 			public void doAction(Menu m) {
 				clearConsole();
@@ -347,6 +348,9 @@ public class ClientVoiture {
 				dossiers = clientVoiture.trouverDossierParNumPlaque(numPlaque);
 				if(dossiers.size() > 0)
 				{
+
+					m.AddSubMenu(buildMenuSelectionnerDossier());
+					
 					System.out.println("Voici les resultats de la recherche");
 					for (int i = 0; i < dossiers.size(); ++i) {
 						Dossier d = dossiers.getDossier(i);
@@ -355,7 +359,8 @@ public class ClientVoiture {
 					}
 					System.out.println("-- Fin de la liste --");
 				}else{
-					System.out.println("Aucun dossier trouve dans la Banque d'infractions");
+					m.RemoveSubMenu(buildMenuSelectionnerDossier());
+					System.out.println("Aucun dossier trouve dans la Banque de dossier");
 				}
 
 				System.out.println(m.subMenutoString());
@@ -367,7 +372,6 @@ public class ClientVoiture {
 	private static Menu buildMenuRechercherDossierParnumPermis() {
 		Menu m = new Menu("Rechercher un dossier par le numero de permis");
 		m.AddSubMenu(buildGoBackMenu());
-		m.AddSubMenu(buildMenuSelectionnerDossier());
 		m.setAction(new Menu.ActionDelegate() {
 			public void doAction(Menu m) {
 				clearConsole();
@@ -382,11 +386,13 @@ public class ClientVoiture {
 				d = clientVoiture.trouverDossierParNumPermis(numPermis);
 				if(d != null)
 				{
+					m.AddSubMenu(buildMenuSelectionnerDossier());
 					System.out.println("Voici le dossier trouve");
 					System.out.println("### " + d.id() + "###");
 					System.out.println(clientVoiture.toString(d));
 				}else
 				{
+					m.RemoveSubMenu(buildMenuSelectionnerDossier());
 					System.out.println("Aucun dossier trouve");
 				}
 				System.out.println(m.subMenutoString());
@@ -399,6 +405,13 @@ public class ClientVoiture {
 	
 	private static Menu buildMenuSelectionnerDossier() {
 		Menu m = new Menu("Selectionner un dossier");
+		Menu goBack = buildGoBackMenu();
+		goBack.setAction(new Menu.ActionDelegate() {
+			
+			public void doAction(Menu m) {
+				term.navigateTo(m.getParentMenu().getParentMenu());
+			}
+		});
 		m.AddSubMenu(buildGoBackMenu());
 		m.setAction(new Menu.ActionDelegate() {
 			public void doAction(Menu m) {
@@ -411,10 +424,16 @@ public class ClientVoiture {
 				
 				Dossier d;
 				d = clientVoiture.selectionnerDossier(numPermis);
-				System.out.println("### " + d.id() + "###");
-				System.out.println(clientVoiture.toString(d));
-
+				if(d != null){
+					System.out.println("### " + d.id() + "###");
+					System.out.println(clientVoiture.toString(d));
+				}
+				else{
+					System.out.println("Le dossier est inexistant.");
+				}
+				
 				System.out.println(m.subMenutoString());
+				
 			}
 			});
 		
@@ -423,6 +442,7 @@ public class ClientVoiture {
 	
 	private static Menu buildMenuVisualiserDossierSelectionne() {
 		Menu m = new Menu("Visualiser le dossier selectionne");
+		m.AddSubMenu(buildGoBackMenu());
 		m.setAction(new Menu.ActionDelegate() {
 			public void doAction(Menu m) {
 				Dossier d;
@@ -433,7 +453,7 @@ public class ClientVoiture {
 				}else{
 					System.out.println("Aucun dossier selectionne");
 				}
-				term.navigateTo(m.getParentMenu());
+				System.out.println(m.subMenutoString());
 			}
 			});
 		
