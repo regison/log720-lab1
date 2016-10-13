@@ -139,6 +139,11 @@ public class ClientVoiture {
 		return d;
 	}
 
+
+	protected Dossier getDossierSelectionne() {
+		return this.dossierCourant;
+	}
+	
 	protected CollectionReaction reactions()  {
 
 		return banqueReactions.reactions();
@@ -164,24 +169,25 @@ public class ClientVoiture {
 	
 	protected String toString(Dossier d) {
 		String dString = "";
-		
 		dString += "Nom: \"" + d.nom() + "\"\n";
 		dString += "Prenom: \"" + d.prenom() + "\"\n";
 		dString += "Numero Permis: \"" + d.noPermis() + "\"\n";
 		dString += "Numero Plaque: \"" + d.noPlaque() + "\"\n";
 		dString += "Niveau Severite: \"" + d.niveau() + "\"";
-		if (reactions().size() > 0){
-			dString += "\n\nListe des reactions: \n";
-			for(int i=0; i<reactions().size(); i++){
-				Reaction r  = reactions().getReaction(i);
+		int[] dossierReactions = d.getListeReaction();
+		if (dossierReactions.length > 0){
+			dString += "\n\n- Liste des reactions: \n";
+			for(int idReaction : dossierReactions){
+				Reaction r  = banqueReactions.trouverReactionParId(idReaction);
 				dString += "\t"+ toString(r);				
 			}
 		}
-		if (infractions().size() > 0){
-			dString += "\n\nListe des infractions: \n";
-			for(int i=0; i<infractions().size(); i++){
-				Infraction infration  = infractions().getInfraction(i);
-				dString += "\t" +toString(infration);				
+		int[] dossierInfraction = d.getListeInfraction();
+		if (dossierInfraction.length > 0){
+			dString += "\n\n- Liste des infractions: \n";
+			for(int idInfraction : dossierInfraction){
+				Infraction i  = banqueInfractions.trouverInfractionParId(idInfraction);
+				dString += "\t"+ toString(i);				
 			}
 		}
 		
@@ -200,8 +206,7 @@ public class ClientVoiture {
 	protected String toString(Reaction r) {
 		String rString = "";
 		
-		rString += "Description: \"" + r.description() + "\"\n";
-		rString += "Niveau Severite: \"" + r.niveau() + "\"";
+		rString += r.id() + " -> description: " + r.description() + " / Gravite: " + r.niveau();
 		
 		return rString;
 	}
@@ -236,8 +241,8 @@ public class ClientVoiture {
 		subMenu = buildMenuRechercherDossier();
 		mainMenu.AddSubMenu(subMenu);
 		
-		//build Menu Selectionner Dossier
-		subMenu = buildMenuSelectionnerDossier();
+		
+		subMenu = buildMenuVisualiserDossierSelectionne();
 		mainMenu.AddSubMenu(subMenu);
 		
 		//build Menu Lister reactions possibles
@@ -286,9 +291,10 @@ public class ClientVoiture {
 	private static Menu buildMenuRechercherDossierParNomEtPrenom() {
 		Menu m = new Menu("Rechercher un dossier par le nom et le prenom");
 		m.AddSubMenu(buildGoBackMenu());
+		m.AddSubMenu(buildMenuSelectionnerDossier());
 		m.setAction(new Menu.ActionDelegate() {
 			public void doAction(Menu m) {
-				
+				clearConsole();
 				String tmp, nom, prenom;
 				Scanner sc = Terminal.getInScanner();
 				System.out.println("Nom ?");
@@ -326,8 +332,10 @@ public class ClientVoiture {
 	private static Menu buildMenuRechercherDossierParNumPlaque() {
 		Menu m = new Menu("Rechercher un dossier par le numero de plaque");
 		m.AddSubMenu(buildGoBackMenu());
+		m.AddSubMenu(buildMenuSelectionnerDossier());
 		m.setAction(new Menu.ActionDelegate() {
 			public void doAction(Menu m) {
+				clearConsole();
 				String tmp, numPlaque;
 				Scanner sc = Terminal.getInScanner();
 				System.out.println("Numero de plaque ?");
@@ -359,8 +367,10 @@ public class ClientVoiture {
 	private static Menu buildMenuRechercherDossierParnumPermis() {
 		Menu m = new Menu("Rechercher un dossier par le numero de permis");
 		m.AddSubMenu(buildGoBackMenu());
+		m.AddSubMenu(buildMenuSelectionnerDossier());
 		m.setAction(new Menu.ActionDelegate() {
 			public void doAction(Menu m) {
+				clearConsole();
 				String tmp, numPermis;
 				Scanner sc = Terminal.getInScanner();
 				System.out.println("Numero de permis ?");
@@ -392,7 +402,6 @@ public class ClientVoiture {
 		m.AddSubMenu(buildGoBackMenu());
 		m.setAction(new Menu.ActionDelegate() {
 			public void doAction(Menu m) {
-				clearConsole();
 				String tmp, numPermis;
 				Scanner sc = Terminal.getInScanner();
 				System.out.println("Numero de permis ?");
@@ -404,7 +413,7 @@ public class ClientVoiture {
 				d = clientVoiture.selectionnerDossier(numPermis);
 				System.out.println("### " + d.id() + "###");
 				System.out.println(clientVoiture.toString(d));
-					
+
 				System.out.println(m.subMenutoString());
 			}
 			});
@@ -412,12 +421,26 @@ public class ClientVoiture {
 		return m;
 	}
 	
+	private static Menu buildMenuVisualiserDossierSelectionne() {
+		Menu m = new Menu("Lister les reactions possibles");
+		m.setAction(new Menu.ActionDelegate() {
+			public void doAction(Menu m) {
+				Dossier d;
+				d = clientVoiture.getDossierSelectionne();
+				System.out.println("### " + d.id() + "###");
+				System.out.println(clientVoiture.toString(d));
+				term.navigateTo(m.getParentMenu());
+			}
+			});
+		
+		return m;
+	}
+
 	private static Menu buildMenuListerReaction() {
 		Menu m = new Menu("Lister les reactions possibles");
 		m.AddSubMenu(buildGoBackMenu());
 		m.setAction(new Menu.ActionDelegate() {
 			public void doAction(Menu m) {
-				clearConsole();
 				CollectionReaction reactions;
 				reactions = clientVoiture.reactions();
 				if(reactions.size() > 0)
@@ -490,10 +513,9 @@ public class ClientVoiture {
 	
 	private static Menu buildMenuAjouterReactionAuDossierSelectionne() {
 		Menu m = new Menu("Ajouter une reaction au dossier selectionne");
-		m.AddSubMenu(buildGoBackMenu());
+		m.AddSubMenu(buildGoBackMenu());		
 		m.setAction(new Menu.ActionDelegate() {
 			public void doAction(Menu m) {
-				//clearConsole();
 				
 				String tmp;
 				int tmpInt = 0, idReaction;
@@ -562,7 +584,6 @@ public class ClientVoiture {
 		m.AddSubMenu(buildGoBackMenu());
 		m.setAction(new Menu.ActionDelegate() {
 			public void doAction(Menu m) {
-//clearConsole();
 				
 				String tmp;
 				int tmpInt = 0, idInfraction;

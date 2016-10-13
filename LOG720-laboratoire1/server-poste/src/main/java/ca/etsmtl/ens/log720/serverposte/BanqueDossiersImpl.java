@@ -3,6 +3,16 @@
  */
 package ca.etsmtl.ens.log720.serverposte;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.time.ZonedDateTime;
+
 import ca.etsmtl.ens.log720.lab1.BanqueDossiersPOA;
 import ca.etsmtl.ens.log720.lab1.CollectionDossier;
 import ca.etsmtl.ens.log720.lab1.CollectionDossierHelper;
@@ -20,12 +30,160 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA{
 
 	
 	private CollectionDossiersImpl collectionDossiers;
+	private PrintWriter dossierOutPutFileStream, dossierInfractionsoutPutFileStream,dossierReactionoutPutFileStream;
 	/**
 	 * 
 	 */
-	public BanqueDossiersImpl() {
+	public BanqueDossiersImpl(String dossierFilePathData,String dossier__InfractionsFilePathData,String dossier__ReactionsFilePathData) 
+	{
 		collectionDossiers =  new CollectionDossiersImpl();
+		
+		this.loadFromFile(dossierFilePathData,dossier__InfractionsFilePathData,dossier__ReactionsFilePathData);
 	}
+
+	private void loadFromFile(String dossierFilePathData,String dossier__InfractionsFilePathData,String dossier__ReactionsFilePathData) 
+	{
+		loadDossierFromFile(dossierFilePathData);
+		loadDossier__InfractionFromFile(dossier__InfractionsFilePathData);
+		loadDossier__ReactionFromFile(dossier__ReactionsFilePathData);
+	}
+
+	private void loadDossierFromFile(String dossierFilePathData) {
+		try {
+			File inputFile = new File(dossierFilePathData);
+			FileInputStream inputFilestream = new FileInputStream(inputFile);
+			InputStreamReader isr = new InputStreamReader(inputFilestream);
+			BufferedReader br = new BufferedReader(isr);
+			
+			String line = null;
+			while((line = br.readLine()) != null){
+				String[] strSplitted = line.split(",");
+				this.ajouterDossier(strSplitted[1], 
+						  strSplitted[2],
+						  strSplitted[3], 
+						  strSplitted[4]);
+				
+			}
+			
+			@SuppressWarnings("unused")
+			File backUpFile = new File(inputFile,inputFile.getName() + ZonedDateTime.now());
+			
+			br.close();
+		} catch (FileNotFoundException e1) {
+			
+		} catch (IOException e) {
+
+		} catch (NoPermisExisteDejaException e) {
+		}
+		
+		
+		try {
+			dossierOutPutFileStream = new PrintWriter(
+					new FileOutputStream(
+							new File(
+									dossierFilePathData
+									)
+							)
+					);
+		} catch (FileNotFoundException e) {
+			
+		}
+		
+	}
+
+	private void loadDossier__InfractionFromFile(String dossier__InfractionFilePathData) {
+		try {
+			File inputFile = new File(dossier__InfractionFilePathData);
+			FileInputStream inputFilestream = new FileInputStream(inputFile);
+			InputStreamReader isr = new InputStreamReader(inputFilestream);
+			BufferedReader br = new BufferedReader(isr);
+			
+			String line = null;
+			while((line = br.readLine()) != null){
+				String[] strSplitted = line.split(",");
+				try{
+					int idDossier = Integer.parseInt(strSplitted[0]);
+					int idInfraction= Integer.parseInt(strSplitted[1]);
+					this.ajouterInfractionAuDossier(idDossier, idInfraction);
+				}
+				catch(NumberFormatException mfex){
+					
+				} catch (InvalidIdException e) {
+				}
+				
+			}
+			
+			@SuppressWarnings("unused")
+			File backUpFile = new File(inputFile,inputFile.getName() + ZonedDateTime.now());
+			
+			br.close();
+		} catch (FileNotFoundException e1) {
+			
+		} catch (IOException e) {
+		}
+		
+		
+		try {
+			dossierInfractionsoutPutFileStream = new PrintWriter(
+					new FileOutputStream(
+							new File(
+									dossier__InfractionFilePathData
+									)
+							)
+					);
+		} catch (FileNotFoundException e1) {
+			
+		}
+		
+	}
+
+	private void loadDossier__ReactionFromFile(String dossier__ReactionFilePathData) {
+		try {
+			File inputFile = new File(dossier__ReactionFilePathData);
+			FileInputStream inputFilestream = new FileInputStream(inputFile);
+			InputStreamReader isr = new InputStreamReader(inputFilestream);
+			BufferedReader br = new BufferedReader(isr);
+			
+			String line = null;
+			while((line = br.readLine()) != null){
+				String[] strSplitted = line.split(",");
+				
+				try{
+					int idDossier = Integer.parseInt(strSplitted[0]);
+					int idReaction= Integer.parseInt(strSplitted[1]);
+					this.ajouterReactionAuDossier(idDossier, idReaction);
+				}
+				catch(NumberFormatException mfex){
+					
+				} catch (InvalidIdException e) {
+				}
+			}
+			
+			@SuppressWarnings("unused")
+			File backUpFile = new File(inputFile,inputFile.getName() + ZonedDateTime.now());
+			
+			br.close();
+		} catch (FileNotFoundException e1) {
+			
+		} catch (IOException e) {
+
+		}
+		
+		
+		try {
+			dossierReactionoutPutFileStream = new PrintWriter(
+					new FileOutputStream(
+							new File(
+									dossier__ReactionFilePathData
+									)
+							)
+					);
+		} catch (FileNotFoundException e) {
+			
+		}
+		
+	}
+
 
 	/* (non-Javadoc)
 	 * @see ca.etsmtl.ens.log720.lab1.BanqueDossiersOperations#dossiers()
@@ -169,12 +327,17 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA{
 		
 		int idDossier = collectionDossiers.size();
 		
-		//Create a new file
+		
+		
+		//Create a new dossier
 		DossierImpl newDossier = new DossierImpl(idDossier, nom, prenom, noPlaque, noPermis);
 		
 		//Verify if file already exists if not add it
-		if (!collectionDossiers.dossiers().contains(newDossier))
+		if (!collectionDossiers.dossiers().contains(newDossier)){
 			collectionDossiers.dossiers().add(newDossier);
+			if(this.dossierOutPutFileStream != null)
+				this.dossierOutPutFileStream.println(newDossier);
+		}
 		else
 			throw new NoPermisExisteDejaException();
 
@@ -188,8 +351,11 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA{
 			if (idDossier != 0 &&  idInfraction != 0){
 				Dossier dossier = trouverDossierParId(idDossier);
 				
-				if (dossier != null)
-					dossier.ajouterInfractionAListe(idInfraction);				
+				if (dossier != null){
+					dossier.ajouterInfractionAListe(idInfraction);
+					if(this.dossierInfractionsoutPutFileStream != null)
+						this.dossierInfractionsoutPutFileStream.println("" + idDossier + "," + idInfraction + "\n");
+				}
 			}
 			else
 				throw new InvalidIdException();
@@ -203,8 +369,11 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA{
 		if (idDossier != 0 &&  idReaction != 0){
 			Dossier dossier = trouverDossierParId(idDossier);
 			
-			if (dossier != null)
-				dossier.ajouterReactionAListe(idReaction);				
+			if (dossier != null){
+				dossier.ajouterReactionAListe(idReaction);	
+				if(this.dossierReactionoutPutFileStream != null)
+					this.dossierReactionoutPutFileStream.println("" + idDossier + "," + idReaction + "\n");
+			}
 		}
 		else
 			throw new InvalidIdException();
@@ -217,14 +386,7 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA{
 		csvObject += "id,nom,prenom,noPermis,noPlaque,levelId,infractionsArray,reactionsArray" + "\n";
 		for (DossierImpl doss : this.collectionDossiers.dossiers()) {
 			csvObject 
-				+= doss.id() + "," 
-					+ doss.nom() + "," 
-					+ doss.prenom() + "," 
-					+ doss.noPermis() + "," 
-					+ doss.noPlaque() + "," 
-					+ doss.niveau() + "," 
-					+ doss.getListeInfraction() + "," 
-					+ doss.getListeReaction() + "\n";
+				+= doss.toCSV() + "\n";
 		}
 		
 		return csvObject;

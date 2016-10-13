@@ -35,8 +35,8 @@ public class ServerPoste {
 
 	public static ServerPoste serverposte;
 	private org.omg.PortableServer.POA poa;
-	private BanqueDossiersImpl servantBanqueDossiers;
-	private BanqueInfractionsImpl servantBanqueInfractions;
+	protected BanqueDossiersImpl servantBanqueDossiers;
+	protected BanqueInfractionsImpl servantBanqueInfractions;
 	
 	/**
 	 * @param orb 
@@ -44,7 +44,7 @@ public class ServerPoste {
 	 * @throws AdapterInactive 
 	 * 
 	 */
-	public ServerPoste(ORB orb) throws InvalidName, AdapterInactive {
+	public ServerPoste(ORB orb,String dossierFilePathData,String dossier__InfractionsFilePathData,String dossier__ReactionsFilePathData,String infractionFilePathData) throws InvalidName, AdapterInactive {
 		poa = org.omg.PortableServer.POAHelper
 				.narrow(orb.resolve_initial_references("RootPOA"));
 
@@ -52,8 +52,8 @@ public class ServerPoste {
 		
 		try {
 
-			servantBanqueDossiers = new BanqueDossiersImpl();
-			servantBanqueInfractions = new BanqueInfractionsImpl();
+			servantBanqueDossiers = new BanqueDossiersImpl(dossierFilePathData,dossier__InfractionsFilePathData,dossier__ReactionsFilePathData);
+			servantBanqueInfractions = new BanqueInfractionsImpl(infractionFilePathData);
 			
 			org.omg.CORBA.Object banqueDossiers  = poa.servant_to_reference(servantBanqueDossiers);
 			org.omg.CORBA.Object banqueInfractions = poa.servant_to_reference(servantBanqueInfractions);
@@ -90,78 +90,6 @@ public class ServerPoste {
 		
 		
 	}
-	
-	public ServerPoste(ORB orb, String csvBanqueDossierFileName, String csvBanqueInfractionFileName) throws InvalidName, AdapterInactive {
-		this(orb);
-		
-		try{
-			try {
-				FileInputStream fis = new FileInputStream(csvBanqueInfractionFileName);
-				InputStreamReader isr = new InputStreamReader(fis);
-				BufferedReader br = new BufferedReader(isr);
-				String str = br.readLine();
-				if(str != null){
-					while((str = br.readLine()) != null)
-					{
-						String[] strSplitted = str.split(",");
-						try {
-							this.servantBanqueInfractions.ajouterInfraction(strSplitted[0], Integer.parseInt(strSplitted[1]));
-						} catch (NumberFormatException e) {
-							// ignore infraction
-						} catch (NiveauHorsBornesException e) {
-							// ignore infraction
-						}
-					}
-				}
-				br.close();
-			
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			
-			try {
-				FileInputStream fis = new FileInputStream(csvBanqueDossierFileName);
-				InputStreamReader isr = new InputStreamReader(fis);
-				BufferedReader br = new BufferedReader(isr);
-				String str = br.readLine();
-				if(str != null){
-					while((str = br.readLine()) != null)
-					{
-						try{
-							String[] strSplitted = str.split(",");
-							int dossierId = Integer.parseInt(strSplitted[0]);
-							if (verifierUnicitePermis(dossierId)){
-								this.servantBanqueDossiers.ajouterDossier(strSplitted[1], 
-																		  strSplitted[2],
-																		  strSplitted[3], 
-																		  strSplitted[4]);
-							}else{
-								System.out.println("Un dossier ayant ce numero existe deja veuillez recommencer");
-							}
-							//TODO add infractions id to dossier from strSplitted[5]
-							//this.servantBanqueDossiers.ajouterInfractionAuDossier(dossierId, 0);
-							//TODO add reactions id to dossier from strSplitted[6]
-							//this.servantBanqueDossiers.ajouterReactionAuDossier(dossierId, 0);
-							
-						} catch (NoPermisExisteDejaException e) {
-							// ignore dossier
-						}/* catch (InvalidIdException e) {
-							// ignore dossier
-						}*/
-						
-					}
-				}
-				br.close();
-			
-			} catch (FileNotFoundException e) {
-				// ignore import
-			}
-		}catch(IOException ioe){
-			
-		}
-	}
 
 	public org.omg.PortableServer.POA getPoa() {
 		return poa;
@@ -169,62 +97,6 @@ public class ServerPoste {
 	
 	public Boolean verifierUnicitePermis(Integer permis){		
 		return servantBanqueDossiers.dossiers().getDossier(permis) != null;
-	}
-	
-	public void exportBanqueDossierToCSV(String csvBanqueDossiersFileName){
-		
-		String csvToWrite = servantBanqueDossiers.toCSV();
-		File file = new File(csvBanqueDossiersFileName);
-		if(file.exists()){
-			// clear file to recreate it
-			file.delete();	
-			try {
-				file.createNewFile();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-
-		try {
-			PrintWriter ps = new PrintWriter(
-					new FileOutputStream(file)
-					);
-			ps.println(csvToWrite);
-			
-			ps.close();
-			
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
-
-	public void exportBanqueInfractionToCSV(String csvBanqueInfractionsFileName){
-		String csvToWrite = servantBanqueInfractions.toCSV();
-		File file = new File(csvBanqueInfractionsFileName);
-		if(file.exists()){
-			file.delete();	
-			try {
-				file.createNewFile();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		try {
-			PrintWriter ps = new PrintWriter(
-					new FileOutputStream(file)
-					);
-			ps.println(csvToWrite);
-			
-			ps.close();
-			
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	
 	/**
@@ -235,16 +107,16 @@ public class ServerPoste {
 		
 		org.omg.CORBA.ORB orb = org.omg.CORBA.ORB.init(args, null);
 		try {
-			String csvBanqueDossiersFileName = "BanqueDossier.csv", csvBanqueInfractionsFileName = "BanqueInfraction.csv";
 			
-			serverposte = new ServerPoste(orb, csvBanqueDossiersFileName, csvBanqueInfractionsFileName);
+			String dossierFilePathData = "dossierFilePathData.csv" ;
+			String dossier__InfractionsFilePathData = "dossierFilePathData.csv" ;
+			String dossier__ReactionsFilePathData = "dossierFilePathData.csv" ;
+			String infractionFilePathData = "dossierFilePathData.csv" ;
+				
+			serverposte = new ServerPoste(orb, dossierFilePathData, dossier__InfractionsFilePathData,dossier__ReactionsFilePathData,infractionFilePathData);
 			
 			orb.run();
 			
-			serverposte.exportBanqueDossierToCSV(csvBanqueDossiersFileName);
-			serverposte.exportBanqueInfractionToCSV(csvBanqueInfractionsFileName);
-			
-			//TODO save to file;
 			
 		} catch (Exception e) {
 			e.printStackTrace();

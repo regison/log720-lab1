@@ -1,5 +1,15 @@
 package ca.etsmtl.ens.log720.serverposte;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.time.ZonedDateTime;
+
 import ca.etsmtl.ens.log720.lab1.BanqueInfractionsPOA;
 import ca.etsmtl.ens.log720.lab1.CollectionInfraction;
 import ca.etsmtl.ens.log720.lab1.CollectionInfractionHelper;
@@ -11,10 +21,57 @@ import ca.etsmtl.ens.log720.lab1.NiveauHorsBornesException;
 public class BanqueInfractionsImpl extends BanqueInfractionsPOA{
 
 	private CollectionInfractionImpl _collectionInfractions;
+	private PrintWriter infractionsoutPutFileStream;
 	
 
-	public BanqueInfractionsImpl() {
+	public BanqueInfractionsImpl(String infractionFilePathData) {
 		this._collectionInfractions = new CollectionInfractionImpl();
+		this.loadFromFile(infractionFilePathData);
+	}
+
+	private void loadFromFile(String infractionFilePathData) 
+	{
+		loadInfractionFromFile(infractionFilePathData);
+		
+	}
+	
+	private void loadInfractionFromFile(String infractionsFilePathData) {
+		try {
+			File inputFile = new File(infractionsFilePathData);
+			FileInputStream inputFilestream = new FileInputStream(inputFile);
+			InputStreamReader isr = new InputStreamReader(inputFilestream);
+			BufferedReader br = new BufferedReader(isr);
+			
+			String line = null;
+			while((line = br.readLine()) != null){
+				String[] strSplitted = line.split(",");
+				try{
+					this.ajouterInfraction(strSplitted[1], Integer.parseInt(strSplitted[2]));
+					
+				} catch(NumberFormatException nfex){
+				} catch (NiveauHorsBornesException e) {
+				}
+			}
+			
+			@SuppressWarnings("unused")
+			File backUpFile = new File(inputFile,inputFile.getName() + ZonedDateTime.now());
+		
+			br.close();
+		} catch (FileNotFoundException e1) {
+			
+		} catch (IOException e) {}
+		
+		try {
+			infractionsoutPutFileStream = new PrintWriter(
+					new FileOutputStream(
+							new File(
+									infractionsFilePathData
+									)
+							)
+					);
+		} catch (FileNotFoundException e) {
+			
+		}
 	}
 
 	public CollectionInfraction infractions() {
@@ -84,22 +141,9 @@ public class BanqueInfractionsImpl extends BanqueInfractionsPOA{
 		int newId = _collectionInfractions.size();
 		InfractionImpl infraction = new InfractionImpl(newId, description, niveau);
 		this._collectionInfractions.infractions().add(infraction);
+		if(this.infractionsoutPutFileStream != null)
+			this.infractionsoutPutFileStream.println(infraction.toCSV());
 
-	}
-
-	protected String toCSV() {
-		String csvObject = "";
-		//print Header
-		csvObject += "id,description,niveau" + "\n";
-		for (InfractionImpl infr : this._collectionInfractions.infractions()) {
-			csvObject 
-				+= infr.id() + "," 
-					+ infr.description() + "," 
-					+ infr.niveau() + "\n";
-		}
-		
-		
-		return csvObject;
 	}
 
 }

@@ -55,4 +55,10 @@ public class InfractionImpl extends InfractionPOA {
 		return null;
 	}
 
+	public String toCSV() {
+		return this.id() + "," 
+				+ this.description() + "," 
+				+ this.niveau() + "\n";
+	}
+
 }

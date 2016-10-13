@@ -113,6 +113,14 @@ public class ClientPoste {
 		dString += "Numero Plaque: \"" + d.noPlaque() + "\"\n";
 		dString += "Niveau Severite: \"" + d.niveau() + "\"";
 		
+		int[] dossierInfraction = d.getListeInfraction();
+		if (dossierInfraction.length > 0){
+			dString += "\n\n- Liste des infractions: \n";
+			for(int idInfraction : dossierInfraction){
+				Infraction i  = banqueInfractions.trouverInfractionParId(idInfraction);
+				dString += "\t"+ toString(i);				
+			}
+		}
 		return dString;
 	}
 	
@@ -150,16 +158,16 @@ public class ClientPoste {
 			}
 		});
 		
+		//build Menu Lister dossier
+		subMenu = buildMenuListerDossiers();
+		mainMenu.AddSubMenu(subMenu);
+				
 		//build Menu Ajouter dossier dans la banque de dossier
 		subMenu = buildMenuAjouterDossier();
 		mainMenu.AddSubMenu(subMenu);
 		
 		//build Menu Ajouter Infraction dans la banque d'infractions
 		subMenu = buildMenuListerInfractions();
-		mainMenu.AddSubMenu(subMenu);
-		
-		//build Menu Lister dossier
-		subMenu = buildMenuListerDossiers();
 		mainMenu.AddSubMenu(subMenu);
 		
 		//build Menu lister infractions

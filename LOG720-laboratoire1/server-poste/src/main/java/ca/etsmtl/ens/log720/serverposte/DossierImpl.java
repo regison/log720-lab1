@@ -6,6 +6,7 @@ package ca.etsmtl.ens.log720.serverposte;
 import java.util.ArrayList;
 
 import ca.etsmtl.ens.log720.lab1.DossierPOA;
+import ca.etsmtl.ens.log720.lab1.Infraction;
 
 /**
  * @author charly
@@ -124,10 +125,14 @@ public class DossierImpl extends DossierPOA implements Comparable<DossierImpl>{
 	public void ajouterInfractionAListe(int idInfraction) {
 		if (idInfraction !=0
 				&& !infractionsArray.contains(idInfraction)){
-			this.infractionsArray.add(idInfraction);
+			
 			
 			//TODO recuperer le niveau de l'infraction afin de l'associer au dossier
-			// ServerPoste.get_BanqueInfraction.getInfraction(idInfraction);
+			Infraction i = ServerPoste.serverposte.servantBanqueInfractions.trouverInfractionParId(idInfraction);
+			if(i != null){
+				this.infractionsArray.add(idInfraction);
+				this.levelId = i.niveau() > this.levelId ?  i.niveau() : this.levelId ;
+			}
 		}
 	}
 
@@ -136,11 +141,22 @@ public class DossierImpl extends DossierPOA implements Comparable<DossierImpl>{
 	 */
 	public String _toString() {
 		// TODO Auto-generated method stub
-		return null;
+		return "";
 	}
 
 	public int compareTo(DossierImpl o) {
 		return this.noPermis.compareTo(o.noPermis);
+	}
+
+	public String toCSV() {
+		return this.id() + "," 
+				+ this.nom() + "," 
+				+ this.prenom() + "," 
+				+ this.noPermis() + "," 
+				+ this.noPlaque() + "," 
+				+ this.niveau() + "," 
+				+ this.getListeInfraction() + "," 
+				+ this.getListeReaction();
 	}
 
 }
