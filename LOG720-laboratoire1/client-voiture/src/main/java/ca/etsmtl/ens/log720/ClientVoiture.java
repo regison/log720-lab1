@@ -422,13 +422,17 @@ public class ClientVoiture {
 	}
 	
 	private static Menu buildMenuVisualiserDossierSelectionne() {
-		Menu m = new Menu("Lister les reactions possibles");
+		Menu m = new Menu("Visualiser le dossier selectionne");
 		m.setAction(new Menu.ActionDelegate() {
 			public void doAction(Menu m) {
 				Dossier d;
 				d = clientVoiture.getDossierSelectionne();
-				System.out.println("### " + d.id() + "###");
-				System.out.println(clientVoiture.toString(d));
+				if(d != null){
+					System.out.println("### " + d.id() + "###");
+					System.out.println(clientVoiture.toString(d));
+				}else{
+					System.out.println("Aucun dossier selectionne");
+				}
 				term.navigateTo(m.getParentMenu());
 			}
 			});
