@@ -156,7 +156,7 @@ public class ClientVoiture {
 	}
 	
 	protected void ajouterReactionAuDossierSelectionne(int idReaction) throws InvalidIdException {
-		this.banqueDossier.ajouterInfractionAuDossier(this.dossierCourant.id(), idReaction);	
+		this.banqueDossier.ajouterReactionAuDossier(this.dossierCourant.id(), idReaction);	
 	}
 	
 	protected void ajouterInfractionAuDossierSelectionne(int idInfraction) throws InvalidIdException {

@@ -248,8 +248,11 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA{
 		
 		if(!nom.isEmpty() || !prenom.isEmpty()){
 			for(DossierImpl dossierFound : collectionDossiers.dossiers()){
-				if (dossierFound.nom().toLowerCase().equals(nom.toLowerCase()) 
-						&& dossierFound.prenom().toLowerCase().equals(prenom.toLowerCase())){
+				if ((dossierFound.nom().toLowerCase().equals(nom.toLowerCase())
+						|| dossierFound.nom().toUpperCase().contains(nom.toLowerCase()) )
+						&& (dossierFound.prenom().toLowerCase().equals(prenom.toLowerCase())
+								|| dossierFound.prenom().toUpperCase().contains(prenom.toLowerCase()) 
+								)){
 					collDossier.dossiers().add(dossierFound);
 				}			
 			}
