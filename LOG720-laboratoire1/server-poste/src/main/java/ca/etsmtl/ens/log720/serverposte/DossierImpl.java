@@ -21,8 +21,8 @@ public class DossierImpl extends DossierPOA{
 	private String noPlaque;
 	private int levelId;
 
-	private ArrayList<Integer> infractionsArray ;
-	private ArrayList<Integer> reactionsArray ;
+	protected ArrayList<Integer> infractionsArray ;
+	protected ArrayList<Integer> reactionsArray ;
 	/**
 	 * @param noPermis 
 	 * @param noPlaque 

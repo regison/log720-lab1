@@ -11,7 +11,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.nio.file.CopyOption;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.Date;
@@ -112,11 +111,10 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA{
 				try{
 					int idDossier = Integer.parseInt(strSplitted[0]);
 					int idInfraction= Integer.parseInt(strSplitted[1]);
-					this.ajouterInfractionAuDossier(idDossier, idInfraction);
+					this.collectionDossiers.dossiers().get(idDossier).infractionsArray.add(idInfraction);
 				}
 				catch(NumberFormatException mfex){
 					
-				} catch (InvalidIdException e) {
 				}
 				
 			}
@@ -162,12 +160,11 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA{
 				try{
 					int idDossier = Integer.parseInt(strSplitted[0]);
 					int idReaction= Integer.parseInt(strSplitted[1]);
-					this.ajouterReactionAuDossier(idDossier, idReaction);
+					this.collectionDossiers.dossiers().get(idDossier).reactionsArray.add(idReaction);
 				}
 				catch(NumberFormatException mfex){
 					
-				} catch (InvalidIdException e) {
-				}
+				} 
 			}
 			
 			br.close();
